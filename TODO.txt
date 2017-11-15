@@ -2,3 +2,4 @@
 - movimentar horizontal/vertical (wasd)
 - somar peças
 - loop do jogo
+- controle de colisão (numeros diferentes nao podem ser somados)
