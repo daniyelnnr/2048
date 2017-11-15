@@ -1,0 +1,4 @@
+- entrada do usuário
+- movimentar horizontal/vertical (wasd)
+- somar peças
+- loop do jogo

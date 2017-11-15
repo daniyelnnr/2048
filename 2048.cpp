@@ -13,6 +13,27 @@ using namespace std;
 	
 int board[4][4] = {0};		
 
+void spawn_random(){
+  int row,col,s;
+  int j = 0;
+  
+  //int empty_spaces = rand() % 16; //0 a 15, pra preencher os 16 espaços. mas queremos só 1
+  int empty_spaces = 0;
+  
+  while(j <= empty_spaces){
+    row = rand() % 4; 
+    col = rand() % 4;
+    s = rand() % 100;
+    if(board[row][col] == 0){
+      if(s > 90){
+        board[row][col] = 4;
+      } else { 
+	      board[row][col] = 2;}
+      }
+    j++;
+  }
+}
+
 void buildRow(int row) {
   for (int col = 0; col < 4; col++) {
     if ((board[row][col]) != 0) {
@@ -32,33 +53,37 @@ void buildBoard() {
     cout << endl;
   }
   cout << "+------+------+------+------+" << endl << endl;
+  cout << "(W)Up (S)Down (A)Left (D)Right ";
 }
 
-void randomize(){
-  int row,col,s;
-  int j = 0;
-  
-  int empty_spaces = rand() % 16;
-  
-  while(j <= empty_spaces){
-    row = rand() % 4; 
-    col = rand() % 4;
-    s = rand() % 100;
-    if(board[row][col] == 0){
-      if(s > 60){
-        board[row][col] = 4;
-      } else { 
-	      board[row][col] = 2;}
-      }
-    j++;
+void userInput() {
+  char input;
+  cin >> input;
+  switch (toupper(input)) {
+    case 'W':
+      cout << "cima"; // acao mover cima
+      break;
+    case 'A':
+      cout << "esq"; // acao mover esq
+      break;
+    case 'S':
+      cout << "down"; // acao mover baixo
+      break;
+    case 'D':
+      cout << "dir"; // acao mover dir
+      break;
+    default: 
+      cout << "Entrada incorreta! ";
+      userInput();
+      break;
   }
 }
-
 
 int main() {
 	
   srand((unsigned int) time(0)); // seed for random generator
-  randomize();
+  spawn_random();
   buildBoard();
+  userInput();
   return 0;
 }
