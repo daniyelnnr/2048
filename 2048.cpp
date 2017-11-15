@@ -51,11 +51,8 @@ void randomize(){
 
 
 int main() {
-  
+	
   srand((unsigned int) time(0));
-  //buildBoard();
-  randomize();
-  randomize();
   randomize();
   buildBoard();
   return 0;
