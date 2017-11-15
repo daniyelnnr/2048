@@ -17,8 +17,8 @@ void spawn_random(){
   int row,col,s;
   int j = 0;
   
-  //int empty_spaces = rand() % 16; //0 a 15, pra preencher os 16 espaços. mas queremos só 1
-  int empty_spaces = 0;
+  //int empty_spaces = rand() % 16; //0 a 15, pra preencher os 16 espaços. mas queremos só 2
+  int empty_spaces = 1;
   
   while(j <= empty_spaces){
     row = rand() % 4; 
@@ -31,6 +31,26 @@ void spawn_random(){
 	      board[row][col] = 2;}
       }
     j++;
+  }
+}
+
+void movment_generateRandom(){
+  int row,col,s;
+  int j = 0;
+  
+  row = rand() % 4; 
+  col = rand() % 4;
+  s = rand() % 100;
+  
+  if(board[row][col] == 0){
+    if(s > 90){
+      board[row][col] = 4;
+    } else { 
+	  board[row][col] = 2;
+	}
+   if(boar[row][col] != 0){
+		movement_gerateRandom();
+	}
   }
 }
 
