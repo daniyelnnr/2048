@@ -11,39 +11,44 @@ using namespace std;
     //{13,14,15,16}
 	//};
 	
-	int board[4][4] = {0};		
+int board[4][4] = {0};		
+
+void buildRow(int row) {
+  for (int col = 0; col < 4; col++) {
+    if ((board[row][col]) != 0) {
+      cout << setw(4) << board[row][col];
+    } else {
+      cout << setw(4) << " ";
+    }
+    cout << " | ";
+  }
+}
 
 void buildBoard() {
 	
   for (int row = 0; row < 4; row++) { 
     cout << "+------+------+------+------+" << endl << "| ";
-    for (int col = 0; col < 4; col++) {
-      if ((board[row][col]) != 0) {
-        cout << setw(4) << board[row][col];
-        cout << " | ";
-      } else {
-        cout << setw(4) << " ";
-      }
-    }
+    buildRow(row);
     cout << endl;
   }
   cout << "+------+------+------+------+" << endl << endl;
 }
+
 void randomize(){
-  int a,b,s;
+  int row,col,s;
   int j = 0;
   
-  int vacancies = rand() % 16;
+  int empty_spaces = rand() % 16;
   
-  while(j <= vacancies){
-    a = rand() % 4; 
-    b = rand() % 4;
+  while(j <= empty_spaces){
+    row = rand() % 4; 
+    col = rand() % 4;
     s = rand() % 100;
-    if(board[a][b] == 0){
-      if( s > 60 ){
-        board[a][b] = 4;}
-      else{ 
-	    board[a][b] = 2;}
+    if(board[row][col] == 0){
+      if(s > 60){
+        board[row][col] = 4;
+      } else { 
+	      board[row][col] = 2;}
       }
     j++;
   }
@@ -52,7 +57,7 @@ void randomize(){
 
 int main() {
 	
-  srand((unsigned int) time(0));
+  srand((unsigned int) time(0)); // seed for random generator
   randomize();
   buildBoard();
   return 0;
