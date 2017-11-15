@@ -49,7 +49,7 @@ void movment_generateRandom(){
 	  board[row][col] = 2;
 	}
    if(boar[row][col] != 0){
-		movement_gerateRandom();
+		movment_generateRandom();
 	}
   }
 }
