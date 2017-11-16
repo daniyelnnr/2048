@@ -83,8 +83,10 @@ void up_movment() {
 						board[row - 1][col] = 2 * board[row][col];
 						board[row][col] = 0;
 					} else {
-						board[row - 1][col] = board[row][col];
-						board[row][col] = 0;
+						if (board[row][col + 1] == 0) {
+                            board[row][col - 1] = board[row][col];
+                            board[row][col] = 0;
+                        }
 					}
 				}
 			}
@@ -102,8 +104,10 @@ void donw_movment() {
 						board[row + 1][col] = 2 * board[row][col];
 						board[row][col] = 0;
 					} else {
-						board[row + 1][col] = board[row][col];
-						board[row][col] = 0;
+						if (board[row][col + 1] == 0) {
+                            board[row][col - 1] = board[row][col];
+                            board[row][col] = 0;
+                        }
 					}
 				}
 			}
@@ -121,8 +125,11 @@ void left_movment() {
 						board[row][col - 1] = 2 * board[row][col];
 						board[row][col] = 0;
 					} else {
-						board[row][col - 1] = board[row][col];
-						board[row][col] = 0;
+                        if (board[row][col + 1] == 0) {
+                            board[row][col - 1] = board[row][col];
+                            board[row][col] = 0;
+                        }
+
 					}
 				}
 			}
@@ -140,8 +147,13 @@ void right_movment() {
 						board[row][col + 1] = 2 * board[row][col];
 						board[row][col] = 0;
 					} else {
-						board[row][col + 1] = board[row][col];
-						board[row][col] = 0;
+                        if (board[row][col + 1] == 0) {
+                            board[row][col + 1] = board[row][col];
+                            board[row][col] = 0;
+                        }
+
+
+
 					}
 				}
 			}
