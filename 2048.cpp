@@ -13,17 +13,17 @@ using namespace std;
 
 int board[4][4] = { 0 };
 
-bool hasSpaceRight(int row, int col){
+bool hasSpaceRight(int row, int col, int i){
 	//se ainda tem espaço na direita e ele está vazio
-	if ((col + 2 <= 3) && (board[col+2] == 0)){
+	if ((col + i <= 3) && (board[row][col+i] == 0)){
 		return true;
 	} else {
 		return false;
 	}
 }
 
-bool hasSpaceLeft(int row, int col){
-	if ((col - 2 >= 0) && (board[col-2] == 0)){
+bool hasSpaceLeft(int row, int col, int i){
+	if ((col - i >= 0) && (board[row][col-i] == 0)){
 		return true;
 	} else {
 		return false;
@@ -149,11 +149,21 @@ void left_movment() {
                             board[row][col - 1] = board[row][col];
                             board[row][col] = 0;
                         }
-                        //se o valor da esquerda não é zero, precisa ser deslocado à esquerda
-                        else if (hasSpaceLeft(row, col)){
-                        	board[row][col-2] = board[row][col-1];
-                        	board[row][col-1] = board[row][col];
-                        	board[row][col] = 0;
+                        //se o valor da esquerda não é zero, o bloco precisa ser deslocado à esquerda
+                        else{
+                        	//se tem espaço 2 colunas à esquerda. Ex: col = 3 e a linha é 0 0 4 2
+                        	if (hasSpaceLeft(row, col, 2)){
+                        		board[row][col-2] = board[row][col-1];
+                        		board[row][col-1] = board[row][col];
+                        		board[row][col] = 0;
+                        	}
+                        	//se tem espaço 3 colunas à esquerda. Ex: col = 3 e a linha é 0 8 4 2
+                        	else if (hasSpaceLeft(row, col, 3)){
+                        		board[row][col-3] = board[row][col-2];
+                        		board[row][col-2] = board[row][col-1];
+                        		board[row][col-1] = board[row][col];
+                        		board[row][col] = 0;
+                        	}
                         }
 					}
 				}
@@ -178,11 +188,21 @@ void right_movment() {
 						if (board[row][col+1] == 0){
 							board[row][col + 1] = board[row][col];
 							board[row][col] = 0;
-						//se o valor da direita não for zero, precisa ser deslocado à direita
-						} else if (hasSpaceRight(row, col)) {
-							board[row][col+2] = board[row][col+1];
-							board[row][col+1] = board[row][col];
-							board[row][col] = 0;
+						//se o valor da direita não for zero, o bloco precisa ser deslocado para a direita
+						} else {
+							//se tem espaço 2 colunas à frente. Ex: col = 0 e a linha é 2 4 0 0
+							if (hasSpaceRight(row, col, 2)){
+								board[row][col+2] = board[row][col+1];
+								board[row][col+1] = board[row][col];
+								board[row][col] = 0;
+							}
+							//se tem espaço 3 colunas à frente. Ex: col = 0 e a linha é 2 8 4 0
+							else if (hasSpaceRight(row, col, 3)){
+								board[row][col+3] = board[row][col+2];
+								board[row][col+2] = board[row][col+1];
+								board[row][col+1] = board[row][col];
+								board[row][col] = 0;
+							}
 						}
 					}
 				}
