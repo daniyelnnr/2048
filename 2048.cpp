@@ -14,7 +14,7 @@ using namespace std;
 int board[4][4] = { 0 };
 
 bool hasSpaceRight(int row, int col, int i){
-	//se ainda tem espaço na direita e ele está vazio
+	//se ainda tem espaï¿½o na direita e ele estï¿½ vazio
 	if ((col + i <= 3) && (board[row][col+i] == 0)){
 		return true;
 	} else {
@@ -30,16 +30,16 @@ bool hasSpaceLeft(int row, int col, int i){
 	}
 }
 
-bool hasSpaceUp(int row, int col) {
-    if ((row - 2 >= 0) && (board[row-2][col] == 0)) {
+bool hasSpaceUp(int row, int col, int i) {
+    if ((row - i >= 0) && (board[row-i][col] == 0)) {
         return true;
     } else {
         return false;
     }
 }
 
-bool hasSpaceDown(int row, int col) {
-    if ((row + 2 <= 3) && board[row+2][col] == 0) {
+bool hasSpaceDown(int row, int col, int i) {
+    if ((row + i <= 3) && board[row+i][col] == 0) {
         return true;
     } else {
         return false;
@@ -118,15 +118,22 @@ void up_movment() {
 						board[row - 1][col] = 2 * board[row][col];
 						board[row][col] = 0;
 					} else {
-						if (board[row - 1][col] == 0) {
-                            board[row - 1][col] = board[row][col];
+									if (board[row - 1][col] == 0) {
+                  board[row - 1][col] = board[row][col];
                             board[row][col] = 0;
-                        } else if (hasSpaceUp(row, col)) {
-                            board[row-2][col] = board[row-1][col];
-                            board[row-1][col] = board[row][col];
-                            board[row][col] = 0;
-                        }
-
+                        } else{
+														if (hasSpaceUp(row, col, 2)) {
+		                            board[row-2][col] = board[row-1][col];
+		                            board[row-1][col] = board[row][col];
+		                            board[row][col] = 0;
+		                        }
+														else if (hasSpaceUp(row, col, 3)){
+															board[row-3][col] = board[row-2][col];
+															board[row-2][col] = board[row-1][col];
+															board[row-1][col] = board[row][col];
+															board[row][col] = 0;
+														}
+												}
 					}
 				}
 			}
@@ -144,14 +151,22 @@ void down_movment() {
 						board[row + 1][col] = 2 * board[row][col];
 						board[row][col] = 0;
 					} else {
-						if (board[row + 1][col] == 0) {
-                            board[row + 1][col] = board[row][col];
-                            board[row][col] = 0;
-                        } else if (hasSpaceDown(row, col)) {
-                            board[row+2][col] = board[row+1][col];
-                            board[row+1][col] = board[row][col];
-                            board[row][col] = 0;
-                        }
+							if (board[row + 1][col] == 0) {
+            		board[row + 1][col] = board[row][col];
+              	board[row][col] = 0;
+          	} else {
+								if (hasSpaceDown(row, col, 2)) {
+									board[row+2][col] = board[row+1][col];
+									board[row+1][col] = board[row][col];
+									board[row][col] = 0;
+								}
+								else if (hasSpaceDown(row, col, 3)){
+									board[row+3][col] = board[row+2][col];
+									board[row+2][col] = board[row+1][col];
+									board[row+1][col] = board[row][col];
+									board[row][col] = 0;
+								}
+						}
 					}
 				}
 			}
@@ -164,27 +179,27 @@ void left_movment() {
 	for (int row = 3; row >= 0; row--) {
 		for (int col = 3; col > 0; col--) {
 			if (col - 1 >= 0) {
-				//se o valor da direita é igual, soma
+				//se o valor da direita ï¿½ igual, soma
 				if (board[row][col] != 0) {
 					if (board[row][col - 1] == board[row][col]) {
 						board[row][col - 1] = 2 * board[row][col];
 						board[row][col] = 0;
-					//se são diferentes...
+					//se sï¿½o diferentes...
 					} else {
-						//se o valor da esquerda é zero, basta substituir
+						//se o valor da esquerda ï¿½ zero, basta substituir
                         if (board[row][col - 1] == 0) {
                             board[row][col - 1] = board[row][col];
                             board[row][col] = 0;
                         }
-                        //se o valor da esquerda não é zero, o bloco precisa ser deslocado à esquerda
+                        //se o valor da esquerda nï¿½o ï¿½ zero, o bloco precisa ser deslocado ï¿½ esquerda
                         else{
-                        	//se tem espaço 2 colunas à esquerda. Ex: col = 3 e a linha é 0 0 4 2
+                        	//se tem espaï¿½o 2 colunas ï¿½ esquerda. Ex: col = 3 e a linha ï¿½ 0 0 4 2
                         	if (hasSpaceLeft(row, col, 2)){
                         		board[row][col-2] = board[row][col-1];
                         		board[row][col-1] = board[row][col];
                         		board[row][col] = 0;
                         	}
-                        	//se tem espaço 3 colunas à esquerda. Ex: col = 3 e a linha é 0 8 4 2
+                        	//se tem espaï¿½o 3 colunas ï¿½ esquerda. Ex: col = 3 e a linha ï¿½ 0 8 4 2
                         	else if (hasSpaceLeft(row, col, 3)){
                         		board[row][col-3] = board[row][col-2];
                         		board[row][col-2] = board[row][col-1];
@@ -205,25 +220,25 @@ void right_movment() {
 		for (int col = 0; col < 4; col++) {
 			if (col + 1 <= 3) {
 				if (board[row][col] != 0) {
-					//se o valor da direita é igual, soma
+					//se o valor da direita ï¿½ igual, soma
 					if (board[row][col + 1] == board[row][col]) {
 						board[row][col + 1] = 2 * board[row][col];
 						board[row][col] = 0;
-					//se são difentes...
+					//se sï¿½o difentes...
 					} else {
-						//se o valor da direita é zero, basta substituir
+						//se o valor da direita ï¿½ zero, basta substituir
 						if (board[row][col+1] == 0){
 							board[row][col + 1] = board[row][col];
 							board[row][col] = 0;
-						//se o valor da direita não for zero, o bloco precisa ser deslocado para a direita
+						//se o valor da direita nï¿½o for zero, o bloco precisa ser deslocado para a direita
 						} else {
-							//se tem espaço 2 colunas à frente. Ex: col = 0 e a linha é 2 4 0 0
+							//se tem espaï¿½o 2 colunas ï¿½ frente. Ex: col = 0 e a linha ï¿½ 2 4 0 0
 							if (hasSpaceRight(row, col, 2)){
 								board[row][col+2] = board[row][col+1];
 								board[row][col+1] = board[row][col];
 								board[row][col] = 0;
 							}
-							//se tem espaço 3 colunas à frente. Ex: col = 0 e a linha é 2 8 4 0
+							//se tem espaï¿½o 3 colunas ï¿½ frente. Ex: col = 0 e a linha ï¿½ 2 8 4 0
 							else if (hasSpaceRight(row, col, 3)){
 								board[row][col+3] = board[row][col+2];
 								board[row][col+2] = board[row][col+1];
