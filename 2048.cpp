@@ -30,6 +30,24 @@ bool hasSpaceLeft(int row, int col, int i){
 	}
 }
 
+bool hasSpaceUp(int row, int col) {
+    if ((row - 2 >= 0) && (board[row-2] == 0)) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+bool hasSpaceDown(int row, int col) {
+    if ((row + 2 <= 3) && board[row+2] == 0) {
+        return true;
+    } else {
+        return false;
+    }
+
+}
+
+
 void spawn_random() {
 	int row, col, s;
 	int j = 0;
@@ -93,17 +111,22 @@ void buildBoard() {
 
 void up_movment() {
 	for (int row = 3; row > 0; row--) {
-		for (int col = 3; col > 0; col--) {
+		for (int col = 3; col >= 0; col--) {
 			if (row - 1 >= 0) {
 				if (board[row][col] != 0) {
 					if (board[row - 1][col] == board[row][col]) {
 						board[row - 1][col] = 2 * board[row][col];
 						board[row][col] = 0;
 					} else {
-						if (board[row + 1][col] == 0) {
-                            board[row + 1][col] = board[row][col];
+						if (board[row - 1][col] == 0) {
+                            board[row - 1][col] = board[row][col];
+                            board[row][col] = 0;
+                        } else if (hasSpaceUp(row, col)) {
+                            board[row-2][col] = board[row-1][col];
+                            board[row-1][col] = board[row][col];
                             board[row][col] = 0;
                         }
+
 					}
 				}
 			}
@@ -112,7 +135,7 @@ void up_movment() {
 	movment_generateRandom();
 }
 
-void donw_movment() {
+void down_movment() {
 	for (int row = 0; row < 4; row++) {
 		for (int col = 0; col < 4; col++) {
 			if (row + 1 <= 3) {
@@ -121,8 +144,12 @@ void donw_movment() {
 						board[row + 1][col] = 2 * board[row][col];
 						board[row][col] = 0;
 					} else {
-						if (board[row - 1][col] == 0) {
-                            board[row - 1][col] = board[row][col];
+						if (board[row + 1][col] == 0) {
+                            board[row + 1][col] = board[row][col];
+                            board[row][col] = 0;
+                        } else if (hasSpaceDown(row, col)) {
+                            board[row+2][col] = board[row+1][col];
+                            board[row+1][col] = board[row][col];
                             board[row][col] = 0;
                         }
 					}
@@ -226,7 +253,7 @@ void userInput() {
 		break;
 	case 'S':
 		cout << "down"; // acao mover baixo
-		donw_movment();
+		down_movment();
 		break;
 	case 'D':
 		cout << "dir"; // acao mover dir
