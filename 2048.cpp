@@ -134,19 +134,27 @@ void donw_movment() {
 }
 
 void left_movment() {
-	for (int row = 3; row > 0; row--) {
+	for (int row = 3; row >= 0; row--) {
 		for (int col = 3; col > 0; col--) {
 			if (col - 1 >= 0) {
+				//se o valor da direita é igual, soma
 				if (board[row][col] != 0) {
 					if (board[row][col - 1] == board[row][col]) {
 						board[row][col - 1] = 2 * board[row][col];
 						board[row][col] = 0;
+					//se são diferentes...
 					} else {
+						//se o valor da esquerda é zero, basta substituir
                         if (board[row][col - 1] == 0) {
                             board[row][col - 1] = board[row][col];
                             board[row][col] = 0;
                         }
-
+                        //se o valor da esquerda não é zero, precisa ser deslocado à esquerda
+                        else if (hasSpaceLeft(row, col)){
+                        	board[row][col-2] = board[row][col-1];
+                        	board[row][col-1] = board[row][col];
+                        	board[row][col] = 0;
+                        }
 					}
 				}
 			}
