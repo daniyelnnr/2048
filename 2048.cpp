@@ -13,6 +13,23 @@ using namespace std;
 
 int board[4][4] = { 0 };
 
+bool hasSpaceRight(int row, int col){
+	//se ainda tem espaço na direita e ele está vazio
+	if ((col + 2 <= 3) && (board[col+2] == 0)){
+		return true;
+	} else {
+		return false;
+	}
+}
+
+bool hasSpaceLeft(int row, int col){
+	if ((col - 2 >= 0) && (board[col-2] == 0)){
+		return true;
+	} else {
+		return false;
+	}
+}
+
 void spawn_random() {
 	int row, col, s;
 	int j = 0;
@@ -143,17 +160,22 @@ void right_movment() {
 		for (int col = 0; col < 4; col++) {
 			if (col + 1 <= 3) {
 				if (board[row][col] != 0) {
+					//se o valor da direita é igual, soma
 					if (board[row][col + 1] == board[row][col]) {
 						board[row][col + 1] = 2 * board[row][col];
 						board[row][col] = 0;
+					//se são difentes...
 					} else {
-                        if (board[row][col + 1] == 0) {
-                            board[row][col + 1] = board[row][col];
-                            board[row][col] = 0;
-                        }
-
-
-
+						//se o valor da direita é zero, basta substituir
+						if (board[row][col+1] == 0){
+							board[row][col + 1] = board[row][col];
+							board[row][col] = 0;
+						//se o valor da direita não for zero, precisa ser deslocado à direita
+						} else if (hasSpaceRight(row, col)) {
+							board[row][col+2] = board[row][col+1];
+							board[row][col+1] = board[row][col];
+							board[row][col] = 0;
+						}
 					}
 				}
 			}
