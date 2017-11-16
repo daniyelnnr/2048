@@ -282,7 +282,31 @@ void userInput() {
 		break;
 	}
 }
+
+void gameStart(){
+	cout << "++++++++++++++++++++++++++++++++++++++++++++++++++++" << endl;
+	cout << "" << endl;
+	cout << "Bem vindo ao jogo 2048!" << endl;
+	cout << "" << endl;
+	cout << "Seu papel é juntar as peças deslocando-as para as 4 direções básicas" << endl;
+	cout << "de maneira a somar os números iguais até alcançar o valor de 2048" << endl;
+	cout << "" << endl;
+	cout << "Você perde o jogo se o tabuleiro estiver com todas ascasas preenchidas" << endl;
+	cout << "sem que nenhum deles seja o 2048." << endl;
+	cout << "" << endl;
+	cout << "Temos 4 direções possiveis, direita, esquerda, cima e baixo" << endl;
+	cout << "" << endl;
+	cout << "As teclas correspondentes são 'd', 'a', 'w', 's', respectivamente " << endl;
+	cout << "" << endl;
+	cout << "Boa sorte" << endl;
+	cout << "" << endl;
+	cout << "++++++++++++++++++++++++++++++++++++++++++++++++++++" << endl;
+	cout << "" << endl;
+
+}
+
 void playGame() {
+	gameStart();
 	spawn_random();
 	while (true) {
 		buildBoard();
