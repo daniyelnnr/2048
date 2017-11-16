@@ -31,7 +31,7 @@ bool hasSpaceLeft(int row, int col, int i){
 }
 
 bool hasSpaceUp(int row, int col) {
-    if ((row - 2 >= 0) && (board[row-2] == 0)) {
+    if ((row - 2 >= 0) && (board[row-2][col] == 0)) {
         return true;
     } else {
         return false;
@@ -39,7 +39,7 @@ bool hasSpaceUp(int row, int col) {
 }
 
 bool hasSpaceDown(int row, int col) {
-    if ((row + 2 <= 3) && board[row+2] == 0) {
+    if ((row + 2 <= 3) && board[row+2][col] == 0) {
         return true;
     } else {
         return false;
