@@ -7,40 +7,6 @@ using namespace std;
 int board[4][4] = { 0 };
 int score = 0;
 
-bool hasSpaceRight(int row, int col, int i){
-	//se ainda tem espa�o na direita e ele est� vazio
-	if ((col + i <= 3) && (board[row][col+i] == 0)){
-		return true;
-	} else {
-		return false;
-	}
-}
-
-bool hasSpaceLeft(int row, int col, int i){
-	if ((col - i >= 0) && (board[row][col-i] == 0)){
-		return true;
-	} else {
-		return false;
-	}
-}
-
-bool hasSpaceUp(int row, int col, int i) {
-    if ((row - i >= 0) && (board[row-i][col] == 0)) {
-        return true;
-    } else {
-        return false;
-    }
-}
-
-bool hasSpaceDown(int row, int col, int i) {
-    if ((row + i <= 3) && board[row+i][col] == 0) {
-        return true;
-    } else {
-        return false;
-    }
-
-}
-
 
 void spawn_random() {
 	int row, col, s;
