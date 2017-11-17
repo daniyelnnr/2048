@@ -3,15 +3,15 @@
 #include <cstdlib>
 
 using namespace std;
-
+/*
 int board[4][4] = {
-{2,0,0,0},
-{0,0,0,0},
-{0,0,0,0},
-{0,0,0,0}
+{2,4,2,4},
+{4,2,4,2},
+{2,4,2,4},
+{32,2,4,4}
 };
-
-//int board[4][4] = { 0 };
+*/
+int board[4][4] = { 0 };
 
 bool hasSpaceRight(int row, int col, int i){
 	//se ainda tem espa�o na direita e ele est� vazio
@@ -237,10 +237,10 @@ bool sumColDown(int col){
 bool check_left(){
 	bool move = false;
 	for(int row = 0; row <= 3; row ++){
-		for(int col = 3; col >= 1; col --){
-			if(board[row][col] == 0 && board[row][col-1] != 0){
+		for(int col = 0; col <= 2; col ++){
+			if(board[row][col] == 0 && board[row][col+1] != 0){
 				move = true;
-			}if((board[row][col] == board[row][col-1]) && (board[row][col-1] != 0)){
+			}if((board[row][col] == board[row][col+1]) && (board[row][col] != 0)){
 				move = true;
 			}
 		}
@@ -251,10 +251,10 @@ bool check_left(){
 bool check_right(){
 	bool move = false;
 	for(int row = 0; row <= 3; row ++){
-		for(int col = 0; col <= 3; col ++){
-			if(board[row][col] == 0 && board[row][col+1] != 0){
+		for(int col = 3; col >= 1; col --){
+			if(board[row][col] == 0 && board[row][col-1] != 0){
 				move = true;
-			}if((board[row][col] == board[row][col+1]) && (board[row][col+1] != 0)){
+			}if((board[row][col] == board[row][col-1]) && (board[row][col] != 0)){
 				move = true;
 			}
 		}
@@ -279,10 +279,10 @@ bool check_down(){
 bool check_up(){
 	bool move = false;
 	for(int col = 0; col <= 3; col ++){
-		for(int row = 0; row <= 3; row ++){
+		for(int row = 0; row <= 2; row ++){
 			if((board[row][col] == 0) && (board[row+1][col] != 0)){
 				move = true;
-			}if((board[row][col] == board[row+1][col]) && (board[row+1][col] != 0)){
+			}if((board[row][col] == board[row+1][col]) && (board[row][col] != 0)){
 				move = true;
 			}
 		}
@@ -291,7 +291,7 @@ bool check_up(){
 }
 
 void left_movment() {
-	if(check_left() ){
+	if(check_left()){
 		for (int row = 0; row < 4; row++) {
 			shiftRowLeft(row);
 			if(sumRowLeft(row)){
@@ -318,7 +318,9 @@ void right_movment() {
 }
 
 void up_movment() {
-	if(check_up()){
+	bool var = check_up();
+	cout << var;
+	if(var){
 		for (int col = 0; col < 4; col++) {
 			shiftColUp(col);
 			if(sumColUp(col)){
@@ -370,6 +372,12 @@ void userInput() {
 		userInput();
 		break;
 	}
+	if(!check_down() && !check_left() && !check_right() && !check_up()){
+		buildBoard();
+		cout << endl;
+		cout << "Perdeu!! " << endl;
+		exit(0);
+	}
 }
 
 void gameStart(){
@@ -396,7 +404,7 @@ void gameStart(){
 
 void playGame() {
 	gameStart();
-	//spawn_random();
+	spawn_random();
 	while (true) {
 		buildBoard();
 		userInput();
