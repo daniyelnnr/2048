@@ -349,10 +349,20 @@ void down_movement() {
 
 
 void userInput() {
+    string letter = "";
 	char input;
 	cout << "Entrada: ";
-	cin >> input;
+	getline(cin, letter);
+	while (letter.length() > 1) {
+        cout << "Entrada incorreta! " << endl;
+        cout << endl;
+        cout << "Entrada: ";
+        getline(cin, letter);
+	}
+	input = letter[0];
+
 	cout << endl;
+
 	switch (toupper(input)) {
 	case 'W':
 		up_movement();
