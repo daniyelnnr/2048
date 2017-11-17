@@ -3,6 +3,7 @@
 #include <cstdlib>
 
 using namespace std;
+<<<<<<< HEAD
 /*
 int board[4][4] = {
 {2,4,2,4},
@@ -12,6 +13,13 @@ int board[4][4] = {
 };
 */
 int board[4][4] = { 0 };
+=======
+
+int board[4][4] = {{0}
+};
+
+int score = 0;
+>>>>>>> 530aaf8406f422ea43a0c272361921e58b85f195
 
 bool hasSpaceRight(int row, int col, int i){
 	//se ainda tem espa�o na direita e ele est� vazio
@@ -98,8 +106,14 @@ void buildRow(int row) {
 	}
 }
 
-void buildBoard() {
+void final_score(){
+	int final_score = score*10;
+	cout<< "Pontuação: " << final_score << endl;
 
+}
+
+void buildBoard() {
+	final_score();
 	for (int row = 0; row < 4; row++) {
 		cout << "+------+------+------+------+" << endl << "| ";
 		buildRow(row);
@@ -193,6 +207,7 @@ bool sumRowLeft(int row){
 			board[row][col] = 2 * board[row][col];
 			board[row][col+1] = 0;
 			sum = true;
+			score += board[row][col];
 		}
 	}
 	return sum;
@@ -205,6 +220,7 @@ bool sumRowRight(int row){
 			board[row][col] = 2 * board[row][col];
 			board[row][col-1] = 0;
 			sum = true;
+			score += board[row][col];
 		}
 	}
 	return sum;
@@ -217,6 +233,7 @@ bool sumColUp(int col){
 			board[row][col] = 2 * board[row][col];
 			board[row+1][col] = 0;
 			sum = true;
+			score += board[row][col];
 		}
 	}
 	return sum;
@@ -229,6 +246,7 @@ bool sumColDown(int col){
 			board[row][col] = 2 * board[row][col];
 			board[row-1][col] = 0;
 			sum = true;
+			score += board[row][col];
 		}
 	}
 	return sum;
@@ -350,19 +368,19 @@ void userInput() {
 	cin >> input;
 	switch (toupper(input)) {
 	case 'W':
-		cout << "cima"; // acao mover cima
+		cout << "cima" << endl; // acao mover cima
 		up_movment();
 		break;
 	case 'A':
-		cout << "esq"; // acao mover esq
+		cout << "esq" << endl; // acao mover esq
 		left_movment();
 		break;
 	case 'S':
-		cout << "down"; // acao mover baixo
+		cout << "down" << endl; // acao mover baixo
 		down_movment();
 		break;
 	case 'D':
-		cout << "dir"; // acao mover dir
+		cout << "dir" << endl; // acao mover dir
 		right_movment();
 		break;
 	case 'Q':
