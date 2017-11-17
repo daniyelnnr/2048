@@ -3,23 +3,10 @@
 #include <cstdlib>
 
 using namespace std;
-<<<<<<< HEAD
-/*
-int board[4][4] = {
-{2,4,2,4},
-{4,2,4,2},
-{2,4,2,4},
-{32,2,4,4}
-};
-*/
+
+
 int board[4][4] = { 0 };
-=======
-
-int board[4][4] = {{0}
-};
-
 int score = 0;
->>>>>>> 530aaf8406f422ea43a0c272361921e58b85f195
 
 bool hasSpaceRight(int row, int col, int i){
 	//se ainda tem espa�o na direita e ele est� vazio
