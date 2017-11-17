@@ -6,9 +6,9 @@ using namespace std;
 
 int board[4][4] = {
 {2,0,0,0},
-{4,0,0,4},
-{2,0,0,2},
-{2,2,2,2}
+{0,0,0,0},
+{0,0,0,0},
+{0,0,0,0}
 };
 
 //int board[4][4] = { 0 };
@@ -234,52 +234,113 @@ bool sumColDown(int col){
 	return sum;
 }
 
-
-
-void left_movment() {
-	for (int row = 0; row < 4; row++) {
-		shiftRowLeft(row);
-		if(sumRowLeft(row)){
-			shiftRowLeft(row);
+bool check_left(){
+	bool move = false;
+	for(int row = 0; row <= 3; row ++){
+		for(int col = 3; col >= 1; col --){
+			if(board[row][col] == 0 && board[row][col-1] != 0){
+				move = true;
+			}if((board[row][col] == board[row][col-1]) && (board[row][col-1] != 0)){
+				move = true;
+			}
 		}
 	}
-	movment_generateRandom();
+	return move;
+}
+
+bool check_right(){
+	bool move = false;
+	for(int row = 0; row <= 3; row ++){
+		for(int col = 0; col <= 3; col ++){
+			if(board[row][col] == 0 && board[row][col+1] != 0){
+				move = true;
+			}if((board[row][col] == board[row][col+1]) && (board[row][col+1] != 0)){
+				move = true;
+			}
+		}
+	}
+	return move;
+}
+
+bool check_down(){
+	bool move = false;
+	for(int col = 0; col <= 3; col ++){
+		for(int row = 3; row >= 1; row --){
+			if((board[row][col] == 0) && (board[row-1][col] != 0)){
+				move = true;
+			}if((board[row][col] == board[row-1][col]) && (board[row-1][col] != 0)){
+				move = true;
+			}
+		}
+	}
+	return move;
+}
+
+bool check_up(){
+	bool move = false;
+	for(int col = 0; col <= 3; col ++){
+		for(int row = 0; row <= 3; row ++){
+			if((board[row][col] == 0) && (board[row+1][col] != 0)){
+				move = true;
+			}if((board[row][col] == board[row+1][col]) && (board[row+1][col] != 0)){
+				move = true;
+			}
+		}
+	}
+	return move;
+}
+
+void left_movment() {
+	if(check_left() ){
+		for (int row = 0; row < 4; row++) {
+			shiftRowLeft(row);
+			if(sumRowLeft(row)){
+				shiftRowLeft(row);
+			}
+		}
+		movment_generateRandom();
+
+	}
 	
 }
 
 void right_movment() {
-	for (int row = 0; row < 4; row++) {
+	if(check_right()){
+		for (int row = 0; row < 4; row++) {
 		shiftRowRight(row);
-		bool var  = sumRowRight(row);
-		cout << var;
-		if(var){
-			
-			shiftRowRight(row);
+			if(sumRowRight(row)){
+				shiftRowRight(row);
+			}
 		}
+		movment_generateRandom();
 	}
-	movment_generateRandom();
 
 }
 
 void up_movment() {
-	for (int col = 0; col < 4; col++) {
-		shiftColUp(col);
-		if(sumColUp(col)){
+	if(check_up()){
+		for (int col = 0; col < 4; col++) {
 			shiftColUp(col);
+			if(sumColUp(col)){
+				shiftColUp(col);
+			}
 		}
+		movment_generateRandom();
 	}
-	movment_generateRandom();
 }
 
 void down_movment() {
-	for (int col = 0; col < 4; col++) {
-		shiftColDown(col);
-		if(sumColDown(col)){
+	if(check_down()){
+		for (int col = 0; col < 4; col++) {
 			shiftColDown(col);
+			if(sumColDown(col)){
+				shiftColDown(col);
+			}
 		}
+		movment_generateRandom();
 	}
-	movment_generateRandom();
 }
+
 
 
 void userInput() {
@@ -335,7 +396,7 @@ void gameStart(){
 
 void playGame() {
 	gameStart();
-	spawn_random();
+	//spawn_random();
 	while (true) {
 		buildBoard();
 		userInput();
