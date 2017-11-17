@@ -351,6 +351,7 @@ void down_movement() {
 void userInput() {
     string letter = "";
 	char input;
+	cout << endl;
 	cout << "Entrada: ";
 	getline(cin, letter);
 	while (letter.length() > 1) {
@@ -360,8 +361,6 @@ void userInput() {
         getline(cin, letter);
 	}
 	input = letter[0];
-
-	cout << endl;
 
 	switch (toupper(input)) {
 	case 'W':
