@@ -65,7 +65,7 @@ void spawn_random() {
 	}
 }
 
-void movment_generateRandom() {
+void movement_generateRandom() {
 	int row, col, s;
 	row = rand() % 4;
 	col = rand() % 4;
@@ -78,7 +78,7 @@ void movment_generateRandom() {
 			board[row][col] = 2;
 		}
 	} else {
-		movment_generateRandom();
+		movement_generateRandom();
 	}
 }
 
@@ -95,7 +95,7 @@ void buildRow(int row) {
 
 void final_score(){
 	int final_score = score*10;
-	cout<< "Pontuação: " << final_score << endl;
+	cout << "SCORE: " << final_score << endl;
 
 }
 
@@ -107,7 +107,7 @@ void buildBoard() {
 		cout << endl;
 	}
 	cout << "+------+------+------+------+" << endl << endl;
-	cout << "(W)Up (S)Down (A)Left (D)Right ";
+	cout << "(W)Up (S)Down (A)Left (D)Right " << endl;
 }
 
 
@@ -295,7 +295,7 @@ bool check_up(){
 	return move;
 }
 
-void left_movment() {
+void left_movement() {
 	if(check_left()){
 		for (int row = 0; row < 4; row++) {
 			shiftRowLeft(row);
@@ -303,13 +303,13 @@ void left_movment() {
 				shiftRowLeft(row);
 			}
 		}
-		movment_generateRandom();
+		movement_generateRandom();
 
 	}
 	
 }
 
-void right_movment() {
+void right_movement() {
 	if(check_right()){
 		for (int row = 0; row < 4; row++) {
 		shiftRowRight(row);
@@ -317,14 +317,13 @@ void right_movment() {
 				shiftRowRight(row);
 			}
 		}
-		movment_generateRandom();
+		movement_generateRandom();
 	}
 
 }
 
-void up_movment() {
+void up_movement() {
 	bool var = check_up();
-	cout << var;
 	if(var){
 		for (int col = 0; col < 4; col++) {
 			shiftColUp(col);
@@ -332,11 +331,11 @@ void up_movment() {
 				shiftColUp(col);
 			}
 		}
-		movment_generateRandom();
+		movement_generateRandom();
 	}
 }
 
-void down_movment() {
+void down_movement() {
 	if(check_down()){
 		for (int col = 0; col < 4; col++) {
 			shiftColDown(col);
@@ -344,7 +343,7 @@ void down_movment() {
 				shiftColDown(col);
 			}
 		}
-		movment_generateRandom();
+		movement_generateRandom();
 	}
 }
 
@@ -352,25 +351,24 @@ void down_movment() {
 
 void userInput() {
 	char input;
+	cout << "Entrada: ";
 	cin >> input;
+	cout << endl;
 	switch (toupper(input)) {
 	case 'W':
-		cout << "cima" << endl; // acao mover cima
-		up_movment();
+		up_movement();
 		break;
 	case 'A':
-		cout << "esq" << endl; // acao mover esq
-		left_movment();
+		left_movement();
 		break;
 	case 'S':
-		cout << "down" << endl; // acao mover baixo
-		down_movment();
+		down_movement();
 		break;
 	case 'D':
-		cout << "dir" << endl; // acao mover dir
-		right_movment();
+		right_movement();
 		break;
 	case 'Q':
+		cout << "Perdeu!! ";
 		exit(0);
 	default:
 		cout << "Entrada incorreta! " << endl;
@@ -390,15 +388,15 @@ void gameStart(){
 	cout << "" << endl;
 	cout << "Bem vindo ao jogo 2048!" << endl;
 	cout << "" << endl;
-	cout << "Seu papel é juntar as peças deslocando-as para as 4 direções básicas" << endl;
-	cout << "de maneira a somar os números iguais até alcançar o valor de 2048" << endl;
+	cout << "Seu papel vai ser juntar as pecas deslocando-as para as 4 direcoes basicas" << endl;
+	cout << "de maneira a somar os numeros iguais ate alcancar o valor de 2048" << endl;
 	cout << "" << endl;
 	cout << "Você perde o jogo se o tabuleiro estiver com todas ascasas preenchidas" << endl;
 	cout << "sem que nenhum deles seja o 2048." << endl;
 	cout << "" << endl;
-	cout << "Temos 4 direções possiveis, direita, esquerda, cima e baixo" << endl;
+	cout << "Temos 4 direcoes possiveis, direita, esquerda, cima e baixo" << endl;
 	cout << "" << endl;
-	cout << "As teclas correspondentes são 'd', 'a', 'w', 's', respectivamente " << endl;
+	cout << "As teclas correspondentes sao 'd', 'a', 'w', 's', respectivamente " << endl;
 	cout << "" << endl;
 	cout << "Boa sorte" << endl;
 	cout << "" << endl;
