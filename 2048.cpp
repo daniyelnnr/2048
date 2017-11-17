@@ -4,14 +4,14 @@
 
 using namespace std;
 
-//int board[4][4] = {
-//{1,2,3,4},
-//{5,6,7,8},
-//{9,10,11,12},
-//{13,14,15,16}
-//};
+int board[4][4] = {
+{2,0,0,0},
+{4,0,0,4},
+{2,0,0,2},
+{2,2,2,2}
+};
 
-int board[4][4] = { 0 };
+//int board[4][4] = { 0 };
 
 bool hasSpaceRight(int row, int col, int i){
 	//se ainda tem espa�o na direita e ele est� vazio
@@ -109,150 +109,178 @@ void buildBoard() {
 	cout << "(W)Up (S)Down (A)Left (D)Right ";
 }
 
-void up_movment() {
-	for (int row = 3; row > 0; row--) {
-		for (int col = 3; col >= 0; col--) {
-			if (row - 1 >= 0) {
-				if (board[row][col] != 0) {
-					if (board[row - 1][col] == board[row][col]) {
-						board[row - 1][col] = 2 * board[row][col];
-						board[row][col] = 0;
-					} else {
-									if (board[row - 1][col] == 0) {
-                  board[row - 1][col] = board[row][col];
-                            board[row][col] = 0;
-                        } else{
-														if (hasSpaceUp(row, col, 2)) {
-		                            board[row-2][col] = board[row-1][col];
-		                            board[row-1][col] = board[row][col];
-		                            board[row][col] = 0;
-		                        }
-														else if (hasSpaceUp(row, col, 3)){
-															board[row-3][col] = board[row-2][col];
-															board[row-2][col] = board[row-1][col];
-															board[row-1][col] = board[row][col];
-															board[row][col] = 0;
-														}
-												}
-					}
+
+bool isHoriEmpty(int row){
+	bool empty = true;
+	for(int col = 0; col < 4; col ++){
+		if(board[row][col] != 0){
+			empty = false;
+		}
+	}
+	return empty;
+}
+
+bool isVertEmpty(int col){
+	bool empty = true;
+	for(int row = 0; row < 4; row ++){
+		if(board[row][col] != 0){
+			empty = false;
+		}
+	}
+	return empty;
+}
+
+void shiftRowLeft(int row) {//int col
+    //verificar antes se ta tudo zero, senao vai dar null pointer TEM QUE FAZER
+	if (!isHoriEmpty(row)) {
+		for(int count = 0; count <= 2; count ++){
+			for(int col = 0; col <= 2; col ++){
+				if(board[row][col] == 0){
+					board[row][col] = board[row][col+1];
+					board[row][col+1] = 0;
 				}
 			}
+		}
+	}
+}
+
+void shiftColUp(int col) {//int col
+    //verificar antes se ta tudo zero, senao vai dar null pointer TEM QUE FAZER
+	if (!isVertEmpty(col)) {
+		for(int count = 0; count <= 2; count ++){
+			for(int row = 0;row <= 2; row ++){
+				if(board[row][col] == 0){
+					board[row][col] = board[row+1][col];
+					board[row+1][col] = 0;
+				}
+			}
+		}
+	}
+}
+
+void shiftColDown(int col) {//int col
+    //verificar antes se ta tudo zero, senao vai dar null pointer TEM QUE FAZER
+	if (!isVertEmpty(col)) {
+		for(int count = 0; count <= 2; count ++){
+			for(int row = 3;row >= 1; row --){
+				if(board[row][col] == 0){
+					board[row][col] = board[row-1][col];
+					board[row-1][col] = 0;
+				}
+			}
+		}
+	}
+}
+
+void shiftRowRight(int row) {//int col
+	//verificar antes se ta tudo zero, senao vai dar null pointer TEM QUE FAZER
+    if (!isHoriEmpty(row)) {
+		for(int count = 0; count <= 2; count ++){
+			for(int col = 3; col >= 1; col --){
+				if(board[row][col] == 0){
+					board[row][col] = board[row][col-1];
+					board[row][col-1] = 0;
+				}
+			}
+		}
+	}
+}
+
+bool sumRowLeft(int row){
+	bool sum = false;
+	for(int col = 0; col < 3; col ++){
+		if (board[row][col + 1] == board[row][col]) {
+			board[row][col] = 2 * board[row][col];
+			board[row][col+1] = 0;
+			sum = true;
+		}
+	}
+	return sum;
+}
+
+bool sumRowRight(int row){
+	bool sum = false;
+	for(int col = 3; col > 0; col --){
+		if (board[row][col - 1] == board[row][col]) {
+			board[row][col] = 2 * board[row][col];
+			board[row][col-1] = 0;
+			sum = true;
+		}
+	}
+	return sum;
+}
+
+bool sumColUp(int col){
+	bool sum = false;
+	for(int row = 0; row < 3; row++){
+		if (board[row+1][col] == board[row][col]) {
+			board[row][col] = 2 * board[row][col];
+			board[row+1][col] = 0;
+			sum = true;
+		}
+	}
+	return sum;
+}
+
+bool sumColDown(int col){
+	bool sum = false;
+	for(int row = 3; row > 0; row --){
+		if (board[row-1][col] == board[row][col]) {
+			board[row][col] = 2 * board[row][col];
+			board[row-1][col] = 0;
+			sum = true;
+		}
+	}
+	return sum;
+}
+
+
+
+void left_movment() {
+	for (int row = 0; row < 4; row++) {
+		shiftRowLeft(row);
+		if(sumRowLeft(row)){
+			shiftRowLeft(row);
+		}
+	}
+	movment_generateRandom();
+	
+}
+
+void right_movment() {
+	for (int row = 0; row < 4; row++) {
+		shiftRowRight(row);
+		bool var  = sumRowRight(row);
+		cout << var;
+		if(var){
+			
+			shiftRowRight(row);
+		}
+	}
+	movment_generateRandom();
+
+}
+
+void up_movment() {
+	for (int col = 0; col < 4; col++) {
+		shiftColUp(col);
+		if(sumColUp(col)){
+			shiftColUp(col);
 		}
 	}
 	movment_generateRandom();
 }
 
 void down_movment() {
-	for (int row = 0; row < 4; row++) {
-		for (int col = 0; col < 4; col++) {
-			if (row + 1 <= 3) {
-				if (board[row][col] != 0) {
-					if (board[row + 1][col] == board[row][col]) {
-						board[row + 1][col] = 2 * board[row][col];
-						board[row][col] = 0;
-					} else {
-							if (board[row + 1][col] == 0) {
-            		board[row + 1][col] = board[row][col];
-              	board[row][col] = 0;
-          	} else {
-								if (hasSpaceDown(row, col, 2)) {
-									board[row+2][col] = board[row+1][col];
-									board[row+1][col] = board[row][col];
-									board[row][col] = 0;
-								}
-								else if (hasSpaceDown(row, col, 3)){
-									board[row+3][col] = board[row+2][col];
-									board[row+2][col] = board[row+1][col];
-									board[row+1][col] = board[row][col];
-									board[row][col] = 0;
-								}
-						}
-					}
-				}
-			}
+	for (int col = 0; col < 4; col++) {
+		shiftColDown(col);
+		if(sumColDown(col)){
+			shiftColDown(col);
 		}
 	}
 	movment_generateRandom();
 }
 
-void left_movment() {
-	for (int row = 3; row >= 0; row--) {
-		for (int col = 3; col > 0; col--) {
-			if (col - 1 >= 0) {
-				//se o valor da direita � igual, soma
-				if (board[row][col] != 0) {
-					if (board[row][col - 1] == board[row][col]) {
-						board[row][col - 1] = 2 * board[row][col];
-						board[row][col] = 0;
-					//se s�o diferentes...
-					} else {
-						//se o valor da esquerda � zero, basta substituir
-                        if (board[row][col - 1] == 0) {
-                            board[row][col - 1] = board[row][col];
-                            board[row][col] = 0;
-                        }
-                        //se o valor da esquerda n�o � zero, o bloco precisa ser deslocado � esquerda
-                        else{
-                        	//se tem espa�o 2 colunas � esquerda. Ex: col = 3 e a linha � 0 0 4 2
-                        	if (hasSpaceLeft(row, col, 2)){
-                        		board[row][col-2] = board[row][col-1];
-                        		board[row][col-1] = board[row][col];
-                        		board[row][col] = 0;
-                        	}
-                        	//se tem espa�o 3 colunas � esquerda. Ex: col = 3 e a linha � 0 8 4 2
-                        	else if (hasSpaceLeft(row, col, 3)){
-                        		board[row][col-3] = board[row][col-2];
-                        		board[row][col-2] = board[row][col-1];
-                        		board[row][col-1] = board[row][col];
-                        		board[row][col] = 0;
-                        	}
-                        }
-					}
-				}
-			}
-		}
-	}
-	movment_generateRandom();
-}
-
-void right_movment() {
-	for (int row = 0; row < 4; row++) {
-		for (int col = 0; col < 4; col++) {
-			if (col + 1 <= 3) {
-				if (board[row][col] != 0) {
-					//se o valor da direita � igual, soma
-					if (board[row][col + 1] == board[row][col]) {
-						board[row][col + 1] = 2 * board[row][col];
-						board[row][col] = 0;
-					//se s�o difentes...
-					} else {
-						//se o valor da direita � zero, basta substituir
-						if (board[row][col+1] == 0){
-							board[row][col + 1] = board[row][col];
-							board[row][col] = 0;
-						//se o valor da direita n�o for zero, o bloco precisa ser deslocado para a direita
-						} else {
-							//se tem espa�o 2 colunas � frente. Ex: col = 0 e a linha � 2 4 0 0
-							if (hasSpaceRight(row, col, 2)){
-								board[row][col+2] = board[row][col+1];
-								board[row][col+1] = board[row][col];
-								board[row][col] = 0;
-							}
-							//se tem espa�o 3 colunas � frente. Ex: col = 0 e a linha � 2 8 4 0
-							else if (hasSpaceRight(row, col, 3)){
-								board[row][col+3] = board[row][col+2];
-								board[row][col+2] = board[row][col+1];
-								board[row][col+1] = board[row][col];
-								board[row][col] = 0;
-							}
-						}
-					}
-				}
-			}
-		}
-	}
-	movment_generateRandom();
-}
 
 void userInput() {
 	char input;
