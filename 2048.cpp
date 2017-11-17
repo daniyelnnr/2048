@@ -4,7 +4,6 @@
 
 using namespace std;
 
-
 int board[4][4] = { 0 };
 int score = 0;
 
@@ -405,12 +404,28 @@ void gameStart(){
 
 }
 
+bool checkWin() {
+	for(int row = 0; row < 4; row++) {
+		for(int col = 0; col < 4; col++) {
+			if(board[row][col] == 2048) {
+				return true;
+			}
+		}
+	} 
+	return false;
+}
+
 void playGame() {
 	gameStart();
 	spawn_random();
 	while (true) {
 		buildBoard();
 		userInput();
+		if(checkWin()){
+			buildBoard();
+			cout << endl << "GANHOU O JOGO!! " << endl;
+			break;
+		}
 	}
 }
 
