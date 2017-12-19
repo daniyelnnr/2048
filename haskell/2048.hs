@@ -9,7 +9,11 @@ start = do
 
 printGrid :: Grid -> IO ()
 printGrid grid = do
+    putStrLn ""
+    putStrLn "+----+-----+-----+-----+"
     mapM_ (putStrLn . concatMap (printf "%5d|")) grid
+    putStrLn "+----+-----+-----+-----+"
+    putStrLn "(W)Up (S)Down (A)Left (D)Right"
 
 
 startText:: IO()
