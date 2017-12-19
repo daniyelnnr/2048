@@ -1,3 +1,15 @@
+import Text.Printf
+
+type Grid = [[Int]]
+
+start :: IO Grid
+start = do
+	let grid = replicate 4 [0, 0, 0, 0]
+	return grid
+
+printGrid :: Grid -> IO ()
+printGrid grid = do
+    mapM_ (putStrLn . concatMap (printf "%5d|")) grid
 
 
 startText:: IO()
@@ -45,5 +57,7 @@ startText = do
 
 main :: IO ()
 main = do
-    startText
+	startText
+	grid <- start
+	printGrid grid
 	
