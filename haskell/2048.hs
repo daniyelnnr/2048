@@ -1,4 +1,6 @@
 import Text.Printf
+import System.IO
+import System.Random
 
 type Grid = [[Int]]
 
@@ -15,6 +17,30 @@ printGrid grid = do
     putStrLn "+----+-----+-----+-----+"
     putStrLn "(W)Up (S)Down (A)Left (D)Right"
 
+eTuplaZero :: Grid -> [(Int, Int)]
+eTuplaZero grid = filter (\(row, col) -> (grid!!row)!!col == 0) coordenadas
+    where linha n = zip (replicate 4 n) [0..3]
+          coordenadas = concatMap linha [0..3]
+
+concatena :: Grid -> (Int, Int) -> Int -> Grid
+concatena grid (row, col) val = pre ++ [mid] ++ post
+    where pre  = take row grid
+          mid  = take col (grid!!row) ++ [val] ++ drop (col + 1) (grid!!row)
+          post = drop (row + 1) grid
+
+adicionaIniciais :: Grid -> IO Grid
+adicionaIniciais grid = do
+	let tuplasPossiveis = eTuplaZero grid
+	escolhido <- escolhaAleatoria tuplasPossiveis
+	num  <- escolhaAleatoria [2,2,2,2,2,2,2,2,2,4]
+	let grid' = concatena grid escolhido num
+	return grid'
+	
+
+escolhaAleatoria :: [a] -> IO a
+escolhaAleatoria xs = do
+    index <- randomRIO (0, length xs-1)
+    return (xs !! index)
 
 startText:: IO()
 startText = do
@@ -63,5 +89,6 @@ main :: IO ()
 main = do
 	startText
 	grid <- start
-	printGrid grid
+	grid' <- adicionaIniciais grid
+	printGrid grid'
 	
