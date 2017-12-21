@@ -41,10 +41,22 @@ escolhaAleatoria xs = do
     index <- randomRIO (0, length xs-1)
     return (xs !! index)
 
+--movimenta e combina (so pra esquerda, por enquanto)
+combina :: [Int] -> [Int]
+combina xs = combinada ++ resto
+    where resto = replicate (length xs - length combinada) 0
+          combinada  = merge (filter (/= 0) xs)
+          merge (x:y:xs) | x == y = (x*2):(merge xs)
+                         | otherwise = x:(merge (y:xs))
+          merge x = x
+
 --loop do jogo
 playGame :: Grid -> IO ()
 playGame grid = do
     printGrid grid
+    let grid' = map combina grid
+    printGrid grid'
+    
 
 startText:: IO()
 startText = do
@@ -97,4 +109,3 @@ main = do
     grid' <- adicionaIniciais gridAux
     --inicia com dois valores aleatorios
     playGame grid'
-    --printGrid grid'
