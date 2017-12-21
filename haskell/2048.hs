@@ -1,6 +1,7 @@
 import Text.Printf
 import System.IO
 import System.Random
+import Data.List
 
 type Grid = [[Int]]
 
@@ -50,12 +51,21 @@ combina xs = combinada ++ resto
                          | otherwise = x:(merge (y:xs))
           merge x = x
 
+mover :: String -> Grid -> Grid
+mover "a" = map combina
+mover "d" = map (reverse . combina . reverse)
+mover "w" = transpose . mover "a" . transpose
+mover "s" = transpose . mover "d" . transpose
+
+
+
 --loop do jogo
 playGame :: Grid -> IO ()
 playGame grid = do
     printGrid grid
-    let grid' = map combina grid
-    printGrid grid'
+    mov <- getLine
+    let grid' = mover mov grid
+    playGame grid'
     
 
 startText:: IO()
