@@ -65,9 +65,12 @@ playGame grid = do
     printGrid grid
     mov <- getLine
     let grid' = mover mov grid
-    playGame grid'
-    
+    if (grid /= grid') then do
+        novo_gride <- adicionaIniciais grid'
+        playGame novo_gride
+    else playGame grid
 
+   
 startText:: IO()
 startText = do
     putStrLn "+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++" 
