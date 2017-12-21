@@ -68,7 +68,9 @@ playGame grid = do
     if (grid /= grid') then do
         novo_gride <- adicionaIniciais grid'
         playGame novo_gride
-    else playGame grid
+    else do
+    grid2 <- adicionaIniciais grid
+    playGame grid2
 
    
 startText:: IO()
