@@ -89,6 +89,8 @@ main :: IO ()
 main = do
 	startText
 	grid <- start
-	grid' <- adicionaIniciais grid
-	printGrid grid'
+	grid1 <- adicionaIniciais grid
+	grid2 <- adicionaIniciais grid1
+	--inicia com dois valores aleatorios
+	printGrid grid2
 	
