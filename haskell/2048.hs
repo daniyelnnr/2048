@@ -2,12 +2,13 @@ import Text.Printf
 import System.IO
 import System.Random
 import Data.List
+import Data.Type.Bool
 
 type Grid = [[Int]]
 
 start :: IO Grid
 start = do
-    let grid = replicate 4 [0, 0, 0, 0]
+    let grid = [[0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]]
     return grid
 
 printGrid :: Grid -> IO ()
@@ -46,7 +47,7 @@ verificaVitoria grid = do
 
 calculaScore :: Grid -> Int
 calculaScore grid = sum pecas
-  where pecas = filter (>2) (concat grid)
+    where pecas = filter (>2) (concat grid)
 
 escolhaAleatoria :: [a] -> IO a
 escolhaAleatoria xs = do
@@ -62,11 +63,15 @@ combina xs = combinada ++ resto
                          | otherwise = x:(merge (y:xs))
           merge x = x
 
+justReturn :: Grid -> Grid
+justReturn x = x
+
 mover :: String -> Grid -> Grid
 mover "a" = map combina
 mover "d" = map (reverse . combina . reverse)
 mover "w" = transpose . mover "a" . transpose
 mover "s" = transpose . mover "d" . transpose
+mover x = justReturn
 
 
 
@@ -74,24 +79,33 @@ mover "s" = transpose . mover "d" . transpose
 playGame :: Grid -> IO ()
 playGame grid = do
     if verificaVitoria grid then do
-      printGrid grid
-      putStrLn "Você venceu!"
+        printGrid grid
+        putStrLn "Você venceu!"
     else do
-      printGrid grid
-      mov <- getLine
-      let grid' = mover mov grid
-      if (grid /= grid') then do
-        novo_gride <- adicionaIniciais grid'
-        playGame novo_gride
-      else do
-        grid2 <- adicionaIniciais grid
-        playGame grid2
+        printGrid grid
+        mov <- getLine
+        let grid' = mover mov grid
+        if (podeMover grid) then
+            if (grid /= grid') then do
+                novo_gride <- adicionaIniciais grid'
+                playGame novo_gride
+            else do
+                playGame grid
+        else do
+            let score = calculaScore grid
+            putStrLn "\nVocê perdeu!"
+            putStrLn ("Score: " ++ show score ++ "\n")
+
+
+
+
+
 
 
 podeMover :: Grid -> Bool
 podeMover grid = sum possibilidades > 0
-  where possibilidades = map (length . eTuplaZero . flip mover grid) direcoes
-        direcoes = ["Left" , "Right",  "Up", "Down"]
+    where possibilidades = map (length . eTuplaZero . flip mover grid)  direcoes
+          direcoes = ["Left" , "Right",  "Up", "Down"]
 
 startText:: IO()
 startText = do
