@@ -41,21 +41,26 @@ telaInicial() :-
 
 print_matrix([]).
 print_matrix([H|T]) :- 
-    /*print_line(H), nl, print_matrix(T).*/
     format('~w ~w ~w ~w~n', H),
     print_matrix(T).
 
-/*print_line([]).
-print_line([H|T]) :-
-    write(H), nl, print_line(T).*/
+zero_matrix(N, K) :-
+    zero_matrix(N, N, K).
+
+zero_matrix(0, _, []).
+zero_matrix(N, M, [K|T]) :-
+    N1 is N - 1,
+    zero_vector(M, K),
+    zero_matrix(N1, M, T).
+
+zero_vector(0, []).
+zero_vector(M, [0|T]) :-
+    M1 is M - 1,
+    zero_vector(M1, T).
 
 :- initialization(main).
 main:-
     telaInicial(),
-    print_matrix([
-        [0,0,0,0],
-        [0,0,0,0],
-        [0,0,0,0],
-        [0,0,0,0]
-    ]),nl.
+    zero_matrix(4,S),
+    print_matrix(S),nl.
 	
