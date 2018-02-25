@@ -25,21 +25,37 @@ telaInicial() :-
     write( "+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"),nl,
     write( ""                                                                             ),nl,
     write( "Seu papel vai ser juntar as pecas deslocando-as para as 4 direcoes basicas"   ),nl,
-    write( "de maneira a somar os numeros iguais ate alcancar o valor de 2048."            ),nl,
+    write( "de maneira a somar os numeros iguais ate alcancar o valor de 2048."           ),nl,
     write( ""                                                                             ),nl,
     write( "Voce perde o jogo se o tabuleiro estiver com todas ascasas preenchidas"       ),nl,
     write( "sem que nenhum deles seja o 2048."                                            ),nl,
     write( ""                                                                             ),nl,
-    write( "Temos 4 direcoes possiveis, direita, esquerda, cima e baixo."                  ),nl,
+    write( "Temos 4 direcoes possiveis, direita, esquerda, cima e baixo."                 ),nl,
     write( ""                                                                             ),nl,
     write( "As teclas correspondentes sao 'd', 'a', 'w', 's', respectivamente."           ),nl,
     write( ""                                                                             ),nl,
-    write( "Boa sorte!"                                                                    ),nl,
+    write( "Boa sorte!"                                                                   ),nl,
     write( ""                                                                             ),nl,
     write( "+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"),nl,
     write( ""                                                                             ),nl.
 
+print_matrix([]).
+print_matrix([H|T]) :- 
+    /*print_line(H), nl, print_matrix(T).*/
+    format('~w ~w ~w ~w~n', H),
+    print_matrix(T).
+
+/*print_line([]).
+print_line([H|T]) :-
+    write(H), nl, print_line(T).*/
+
 :- initialization(main).
 main:-
-    telaInicial(),nl.
+    telaInicial(),
+    print_matrix([
+        [0,0,0,0],
+        [0,0,0,0],
+        [0,0,0,0],
+        [0,0,0,0]
+    ]),nl.
 	
