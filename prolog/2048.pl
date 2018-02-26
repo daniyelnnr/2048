@@ -1,3 +1,5 @@
+:- use_module(library(random)).
+
 telaInicial() :-
     write( "+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"),nl,
     write( " 222222222222222         000000000            444444444       888888888"      ),nl,
@@ -44,23 +46,52 @@ print_matrix([H|T]) :-
     format('~w ~w ~w ~w~n', H),
     print_matrix(T).
 
-zero_matrix(N, K) :-
-    zero_matrix(N, N, K).
+start(G) :-
+    G = [
+        [0,0,0,0],
+        [0,0,0,0],
+        [0,0,0,0],
+        [0,0,0,0]
+    ].
 
-zero_matrix(0, _, []).
-zero_matrix(N, M, [K|T]) :-
-    N1 is N - 1,
-    zero_vector(M, K),
-    zero_matrix(N1, M, T).
+adicionaIniciais(G,Grid) :- 
+    random_member(Val,[2,2,2,2,2,2,2,2,2,4]),
+    /*substituir Val em uma posicao aleatoria de G*/
+    length(G, Size),
+    list_index(Size,Indexes),
+    random_member(X,Indexes),
+    random_member(Y,Indexes),
+    replace(G,X,Y,Val,Ans),
+    Grid = Ans.
 
-zero_vector(0, []).
-zero_vector(M, [0|T]) :-
+replace([H|Tail],0,Y,Z,[R|Tail]) :-
+    /*encontrou a linha desejada, agora procura pela coluna*/
+    /*lista de listas, entao H e R sao ambas listas*/ 
+    replace_column(H,Y,Z,R).
+replace([H|Tail],X,Y,Z,[H|R]) :-
+    /*recursivamente ate encontrara a linha desejada*/
+    X > 0,
+    X1 is X-1,
+    replace(Tail,X1,Y,Z,R).
+
+replace_column([_|Tail],0,Z,[Z|Tail]).
+/*a cabeca sera substituida, formando a resposta*/
+replace_column([C|Tail],Y,Z,[C|R]) :-
+    /*recursivamente ate encontrara a coluna desejada*/
+    Y > 0,
+    Y1 is Y-1,
+    replace_column(Tail,Y1,Z,R).
+
+/*gera uma lista dos indices da lista, iniciando com 0*/
+list_index(0, []) :- !.
+list_index(M, [M1|Ks]) :-
     M1 is M - 1,
-    zero_vector(M1, T).
+    list_index(M1, Ks).
 
 :- initialization(main).
 main:-
     telaInicial(),
-    zero_matrix(4,S),
-    print_matrix(S),nl.
-	
+    start(G),
+    adicionaIniciais(G,Aux),
+    adicionaIniciais(Aux,Grid),
+    print_matrix(Grid),nl.
