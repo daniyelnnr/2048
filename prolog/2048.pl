@@ -1,7 +1,7 @@
 :- initialization(main).	
 menu():-
 	printa(),
-	read(OP),
+	read(OP), nl ,
 	sw(OP).
 
 telaInicial() :-
@@ -46,20 +46,19 @@ telaInicial() :-
     write( ""                                                                             ),nl.
 
 
-sw(1):-
+sw(6):-
 	findall(X, (array(X,_,_,_,_)),L),
 	direita(L),
 	menu().	
-sw(2):-
+sw(4):-
 	findall(X, (array(X,_,_,_,_)),L),
 	esquerda(L),
 	menu().	
-sw(3):-
+sw(2):-
 	array(0,X,Y,W,Z),
 	array(1,X1,Y1,W1,Z1),
 	array(2,X2,Y2,W2,Z2),
 	array(3,X3,Y3,W3,Z3),
-	
 	
 	assertz(array(4,X,X1,X2,X3)),
 	assertz(array(5,Y,Y1,Y2,Y3)),
@@ -70,13 +69,11 @@ sw(3):-
 	shif(5),
 	shif(6),
 	shif(7),
-	
-	
+
 	somaDireita(4),
 	somaDireita(5),
 	somaDireita(6),
 	somaDireita(7),
-	
 	
 	array(4,A1,A2,A3,A4),
 	array(5,B1,B2,B3,B4),
@@ -101,7 +98,7 @@ sw(3):-
 	menu().
 
 
-sw(4):-
+sw(8):-
 	array(0,X,Y,W,Z),
 	array(1,X1,Y1,W1,Z1),
 	array(2,X2,Y2,W2,Z2),
@@ -176,11 +173,17 @@ somaEsquerda(Numero):- X=Y,
 	SOMA is X + Y,
 	retract(array(Numero,_,_,_,_)),
 	assertz(array(Numero,SOMA,W,Z,0)).
+	
 somaEsquerda(Numero):- W=Y,
 	array(Numero,X,Y,W,Z),
 	SOMA is W + Y,
 	retract(array(Numero,_,_,_,_)),
 	assertz(array(Numero,X,SOMA,Z,0)).	
+
+somaEsquerda(Numero):- 
+	array(Numero,X,Y,W,Z),
+	retract(array(Numero,_,_,_,_)),
+	assertz(array(Numero,X,Y,W,Z)).
 
 
 
@@ -213,9 +216,14 @@ somaDireita(Numero):- W=Y,
 	SOMA is W + Y,
 	retract(array(Numero,_,_,_,_)),
 	assertz(array(Numero,0,X,SOMA,Z)).	
+
+somaDireita(Numero):- 
+	array(Numero,X,Y,W,Z),
+	retract(array(Numero,_,_,_,_)),
+	assertz(array(Numero,X,Y,W,Z)).
 		
 inicia():-
-	assertz(array(0,0,0,2,2)),
+	assertz(array(0,2048,0,2,2)),
 	assertz(array(1,0,0,4,4)),
 	assertz(array(2,2,2,0,4)),
 	assertz(array(3,2,2,4,4)).
@@ -223,6 +231,7 @@ inicia():-
 listarArray([]).
 listarArray([H|Tail]):-
 	array(H,X,Y,W,Z),
+	write("---------------------"), nl ,
 	format('|~w~5+|~w~5+|~w~5+|~w~5+|  ~n', [X,Y,W,Z]),
 	listarArray(Tail).
 	
