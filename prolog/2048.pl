@@ -49,10 +49,12 @@ telaInicial() :-
 sw(6):-
 	findall(X, (array(X,_,_,_,_)),L),
 	direita(L),
+	verificaFim(L),
 	menu().	
 sw(4):-
 	findall(X, (array(X,_,_,_,_)),L),
 	esquerda(L),
+	verificaFim(L),
 	menu().	
 sw(2):-
 	array(0,X,Y,W,Z),
@@ -69,7 +71,7 @@ sw(2):-
 	shif(5),
 	shif(6),
 	shif(7),
-
+	
 	somaDireita(4),
 	somaDireita(5),
 	somaDireita(6),
@@ -114,13 +116,11 @@ sw(8):-
 	shif1(5),
 	shif1(6),
 	shif1(7),
-	
-	
+		
 	somaEsquerda(4),
 	somaEsquerda(5),
 	somaEsquerda(6),
 	somaEsquerda(7),
-	
 	
 	array(4,A1,A2,A3,A4),
 	array(5,B1,B2,B3,B4),
@@ -147,6 +147,18 @@ sw(8):-
 sw(_):-
 	halt(0).
 
+verificaFim([]).
+verificaFim([Head|Tail]):-
+	verifica(Head),
+	verificaFim(Tail).
+
+
+verifica(Numero) :- array(Numero, X,Y,W,Z), (X=2048;Y=2048;W=2048;Z=2048),
+	printa(),
+	write("FIM DE JOGO"), nl,
+	halt(0).
+	
+verifica(_).	
 
 printa():-
 	findall(X, (array(X,_,_,_,_)),L),
@@ -223,8 +235,8 @@ somaDireita(Numero):-
 	assertz(array(Numero,X,Y,W,Z)).
 		
 inicia():-
-	assertz(array(0,2048,0,2,2)),
-	assertz(array(1,0,0,4,4)),
+	assertz(array(0,1024,0,1024,2)),
+	assertz(array(1,1024,0,4,4)),
 	assertz(array(2,2,2,0,4)),
 	assertz(array(3,2,2,4,4)).
 
