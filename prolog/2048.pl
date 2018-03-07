@@ -173,24 +173,29 @@ somaEsquerda(Numero):- W=Z,X=Y,
 	SOMA is W + Z,
 	SOMA2 is X + Y,
 	retract(array(Numero,_,_,_,_)),
-	assertz(array(Numero,SOMA2,SOMA,0,0)).	
-somaEsquerda(Numero):- W=Z,
-	array(Numero,X,Y,W,Z),
-	SOMA is W + Z,
-	retract(array(Numero,_,_,_,_)),
-	assertz(array(Numero,X,Y,SOMA,0)).
+	assertz(array(Numero,SOMA2,SOMA,0,0)).
 
 somaEsquerda(Numero):- X=Y,
 	array(Numero,X,Y,W,Z),
 	SOMA is X + Y,
 	retract(array(Numero,_,_,_,_)),
-	assertz(array(Numero,SOMA,W,Z,0)).
+	assertz(array(Numero,SOMA,W,Z,0)).	
 	
 somaEsquerda(Numero):- W=Y,
 	array(Numero,X,Y,W,Z),
 	SOMA is W + Y,
 	retract(array(Numero,_,_,_,_)),
 	assertz(array(Numero,X,SOMA,Z,0)).	
+
+
+
+somaEsquerda(Numero):- W=Z,
+	array(Numero,X,Y,W,Z),
+	SOMA is W + Z,
+	retract(array(Numero,_,_,_,_)),
+	assertz(array(Numero,X,Y,SOMA,0)).
+
+
 
 somaEsquerda(Numero):- 
 	array(Numero,X,Y,W,Z),
@@ -235,8 +240,8 @@ somaDireita(Numero):-
 	assertz(array(Numero,X,Y,W,Z)).
 		
 inicia():-
-	assertz(array(0,1024,0,1024,2)),
-	assertz(array(1,1024,0,4,4)),
+	assertz(array(0,2,0,4,2)),
+	assertz(array(1,4,0,4,4)),
 	assertz(array(2,2,2,0,4)),
 	assertz(array(3,2,2,4,4)).
 
