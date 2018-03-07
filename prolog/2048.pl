@@ -76,11 +76,13 @@ sw(2):-
 	somaDireita(5),
 	somaDireita(6),
 	somaDireita(7),
-	
+		
 	array(4,A1,A2,A3,A4),
 	array(5,B1,B2,B3,B4),
 	array(6,C1,C2,C3,C4),
 	array(7,D1,D2,D3,D4),
+	
+
 	
 	retract(array(0,_,_,_,_)),
 	retract(array(1,_,_,_,_)),
@@ -91,6 +93,8 @@ sw(2):-
 	assertz(array(1,A2,B2,C2,D2)),
 	assertz(array(2,A3,B3,C3,D3)),
 	assertz(array(3,A4,B4,C4,D4)),
+		
+	verificaFim([0,1,2,3]),
 	
 	retract(array(4,_,_,_,_)),
 	retract(array(5,_,_,_,_)),
@@ -137,6 +141,8 @@ sw(8):-
 	assertz(array(2,A3,B3,C3,D3)),
 	assertz(array(3,A4,B4,C4,D4)),
 	
+	verificaFim([0,1,2,3]),
+	
 	retract(array(4,_,_,_,_)),
 	retract(array(5,_,_,_,_)),
 	retract(array(6,_,_,_,_)),
@@ -149,11 +155,14 @@ sw(_):-
 
 verificaFim([]).
 verificaFim([Head|Tail]):-
+	write("aqui1"),
 	verifica(Head),
+	write("aqui2"),
 	verificaFim(Tail).
 
 
 verifica(Numero) :- array(Numero, X,Y,W,Z), (X=2048;Y=2048;W=2048;Z=2048),
+	write("aqui"),
 	printa(),
 	write("FIM DE JOGO"), nl,
 	halt(0).
@@ -240,8 +249,8 @@ somaDireita(Numero):-
 	assertz(array(Numero,X,Y,W,Z)).
 		
 inicia():-
-	assertz(array(0,2,0,4,2)),
-	assertz(array(1,4,0,4,4)),
+	assertz(array(0,1024,0,1024,2)),
+	assertz(array(1,1024,0,4,4)),
 	assertz(array(2,2,2,0,4)),
 	assertz(array(3,2,2,4,4)).
 
