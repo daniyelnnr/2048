@@ -4,23 +4,30 @@ menu():-
 	read(OP), nl ,
 	sw(OP).
 
+inicia():-
+	assertz(array(0,8,2,1024,1024)),
+    assertz(array(1,2,0,0,2)),
+    assertz(array(2,2,0,0,2)),
+    assertz(array(3,2,2,2,8)).
+
+listarArray([]).
+listarArray([H|Tail]):-
+	array(H,X,Y,W,Z),
+	write("---------------------"), nl ,
+	format('|~w~5+|~w~5+|~w~5+|~w~5+|  ~n', [X,Y,W,Z]),
+	listarArray(Tail).
+
 adicionaAleatorio() :-
     random_member(Val,[2,2,2,2,2,2,2,2,2,4]),
     random_member(Row,[0,1,2,3]),
-    /*write(Row),nl,*/
     transforma(Row,Array),
-    /*write(Array),nl,*/
     random_member(Col,[0,1,2,3]),
-	/*write(Col),nl,
-	write(Val),nl,*/
     replace_column(Array,Col,Val,Ans),
-	/*write(Ans),nl,*/
 	(Array \= Ans ->
 		alteraFatos(Row,Ans)
 	;Array = Ans ->
 		adicionaAleatorio()
 	).
-	/*alteraFatos(Row,Ans).*/
 
 alteraFatos(0,Array) :- 
 	[A,B,C,D] = Array,
@@ -87,8 +94,6 @@ alteraFatos(1,Array) :-
 	retract(array(7,_,_,_,_)).
 
 alteraFatos(2,Array) :- 
-	/*write("aqui"),nl,
-	printa(),*/
 	[A,B,C,D] = Array,
 	array(0,X,Y,W,Z),
     array(1,X1,Y1,W1,Z1),
@@ -157,16 +162,10 @@ transforma(Row, Array) :-
     array(Row, X, Y, Z, W),
     Array = [X,Y,Z,W].
  
-replace_column([Head|Tail],0,X,[X|Tail]) :- 
-	(Head = 0 ->
-		write("PODE INSERIR")
-	).
-	/*Head = 0.*/
+replace_column([Head|Tail],0,X,[X|Tail]) :- Head = 0.
 replace_column([A|Tail],0,Z,[A|Tail]) :- A \= 0.
-/*replace_column([A|Tail],0,Z,[Z|Tail]) :- A \= 0,
-    adicionaAleatorio().*/
 replace_column([C|Tail],Y,Z,[C|R]) :-
-    /*recursivamente ate encontrara a coluna desejada*/
+    /*recursivamente ate encontrar a coluna desejada*/
     Y > 0,
     Y1 is Y-1,
     replace_column(Tail,Y1,Z,R).  
@@ -212,7 +211,6 @@ telaInicial() :-
     write( "+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"),nl,
     write( ""                                                                             ),nl.
 
-
 sw(6):-
 	findall(X, (array(X,_,_,_,_)),L),
 	direita(L),
@@ -251,8 +249,6 @@ sw(2):-
 	array(6,C1,C2,C3,C4),
 	array(7,D1,D2,D3,D4),
 	
-
-	
 	retract(array(0,_,_,_,_)),
 	retract(array(1,_,_,_,_)),
 	retract(array(2,_,_,_,_)),
@@ -274,13 +270,11 @@ sw(2):-
 	
 	menu().
 
-
 sw(8):-
 	array(0,X,Y,W,Z),
 	array(1,X1,Y1,W1,Z1),
 	array(2,X2,Y2,W2,Z2),
 	array(3,X3,Y3,W3,Z3),
-	
 	
 	assertz(array(4,X,X1,X2,X3)),
 	assertz(array(5,Y,Y1,Y2,Y3)),
@@ -328,16 +322,19 @@ sw(_):-
 
 verificaFim([]).
 verificaFim([Head|Tail]):-
-	write("aqui1"),
 	verifica(Head),
-	write("aqui2"),
 	verificaFim(Tail).
 
-
 verifica(Numero) :- array(Numero, X,Y,W,Z), (X=2048;Y=2048;W=2048;Z=2048),
-	write("aqui"),
-	printa(),
-	write("FIM DE JOGO"), nl,
+	printa(),nl,
+	write("
+	  _____  ___  __  __   ____   _____       _   ___    ____   ___   _ 
+	 |  ___||_ _||  \/  | |  _ \ | ____|     | | / _ \  / ___| / _ \ | |
+	 | |_    | | | |\/| | | | | ||  _|    _  | || | | || |  _ | | | || |
+	 |  _|   | | | |  | | | |_| || |___  | |_| || |_| || |_| || |_| ||_|
+	 |_|    |___||_|  |_| |____/ |_____|  \___/  \___/  \____| \___/ (_)
+
+	"), nl,
 	halt(0).
 	
 verifica(_).	
@@ -345,46 +342,38 @@ verifica(_).
 printa():-
 	findall(X, (array(X,_,_,_,_)),L),
 	listarArray(L).
+	
 esquerda([]).
 esquerda([Head|Tail]):-
 	shif1(Head),
 	somaEsquerda(Head),
 	esquerda(Tail).
+	
 somaEsquerda(Numero):- W=Z,X=Y,
 	array(Numero,X,Y,W,Z),
 	SOMA is W + Z,
 	SOMA2 is X + Y,
 	retract(array(Numero,_,_,_,_)),
 	assertz(array(Numero,SOMA2,SOMA,0,0)).
-
 somaEsquerda(Numero):- X=Y,
 	array(Numero,X,Y,W,Z),
 	SOMA is X + Y,
 	retract(array(Numero,_,_,_,_)),
-	assertz(array(Numero,SOMA,W,Z,0)).	
-	
+	assertz(array(Numero,SOMA,W,Z,0)).		
 somaEsquerda(Numero):- W=Y,
 	array(Numero,X,Y,W,Z),
 	SOMA is W + Y,
 	retract(array(Numero,_,_,_,_)),
 	assertz(array(Numero,X,SOMA,Z,0)).	
-
-
-
 somaEsquerda(Numero):- W=Z,
 	array(Numero,X,Y,W,Z),
 	SOMA is W + Z,
 	retract(array(Numero,_,_,_,_)),
 	assertz(array(Numero,X,Y,SOMA,0)).
-
-
-
 somaEsquerda(Numero):- 
 	array(Numero,X,Y,W,Z),
 	retract(array(Numero,_,_,_,_)),
 	assertz(array(Numero,X,Y,W,Z)).
-
-
 
 
 direita([]).
@@ -398,44 +387,27 @@ somaDireita(Numero):- W=Z,X=Y,
 	SOMA is W + Z,
 	SOMA2 is X + Y,
 	retract(array(Numero,_,_,_,_)),
-	assertz(array(Numero,0,0,SOMA2,SOMA)).	
-
+	assertz(array(Numero,0,0,SOMA2,SOMA)).
 somaDireita(Numero):- W=Z,
 	array(Numero,X,Y,W,Z),
 	SOMA is W + Z,
 	retract(array(Numero,_,_,_,_)),
 	assertz(array(Numero,0,X,Y,SOMA)).
-
 somaDireita(Numero):- W=Y,
 	array(Numero,X,Y,W,Z),
 	SOMA is W + Y,
 	retract(array(Numero,_,_,_,_)),
 	assertz(array(Numero,0,X,SOMA,Z)).	
-			
 somaDireita(Numero):- X=Y,
 	array(Numero,X,Y,W,Z),
 	SOMA is X + Y,
 	retract(array(Numero,_,_,_,_)),
 	assertz(array(Numero,0,SOMA,W,Z)).	
-
-
 somaDireita(Numero):- 
 	array(Numero,X,Y,W,Z),
 	retract(array(Numero,_,_,_,_)),
 	assertz(array(Numero,X,Y,W,Z)).
-		
-inicia():-
-	assertz(array(0,8,2,2,2)),
-    assertz(array(1,2,0,0,2)),
-    assertz(array(2,2,0,0,2)),
-    assertz(array(3,2,2,2,8)).
 
-listarArray([]).
-listarArray([H|Tail]):-
-	array(H,X,Y,W,Z),
-	write("---------------------"), nl ,
-	format('|~w~5+|~w~5+|~w~5+|~w~5+|  ~n', [X,Y,W,Z]),
-	listarArray(Tail).
 	
 /* SHIFT DIREITA */
 shif(Numero):- array(Numero,X,Y,W,Z), X \= 0, Y = 0, W = 0, Z=0, retract(array(Numero,_,_,_,_)),
@@ -463,9 +435,7 @@ shif(Numero):- array(Numero,X,Y,W,Z), X \= 0, Y \= 0, W = 0, Z\=0, retract(array
 shif(Numero):- array(Numero,X,Y,W,Z), X \= 0, Y = 0, W \= 0, Z\=0, retract(array(Numero,_,_,_,_)),
 										assertz(array(Numero,0,X,W,Z)).
 										
-
 /* SHIFT ESQUERDA */
-
 shif1(Numero):- array(Numero,X,Y,W,Z), X = 0, Y = 0, W = 0, Z\=0, retract(array(Numero,_,_,_,_)),
 										assertz(array(Numero,Z,0,0,0)).
 shif1(Numero):- array(Numero,X,Y,W,Z), X = 0, Y \= 0, W = 0, Z=0, retract(array(Numero,_,_,_,_)),
@@ -490,10 +460,10 @@ shif1(Numero):- array(Numero,X,Y,W,Z), X \= 0, Y \= 0, W = 0, Z\=0, retract(arra
 										assertz(array(Numero,X,Y,Z,0)).
 shif1(Numero):- array(Numero,X,Y,W,Z), X \= 0, Y = 0, W \= 0, Z\=0, retract(array(Numero,_,_,_,_)),
 										assertz(array(Numero,X,W,Z,0)).
-
-
+									
+shif(_).
 shif1(_).
-shif(_).										
+									
 main:-
 	telaInicial(),
     inicia(),
