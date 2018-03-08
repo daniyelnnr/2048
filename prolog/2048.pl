@@ -4,6 +4,145 @@ menu():-
 	read(OP), nl ,
 	sw(OP).
 
+adicionaAleatorio() :-
+    random_member(Val,[2,2,2,2,2,2,2,2,2,4]),
+    random_member(Row,[0,1,2,3]),
+    write(Row),nl,
+    transforma(Row,Array),
+    write(Array),nl,
+    random_member(Col,[0,1,2,3]),
+	write(Col),nl,
+	write(Val),nl,
+    replace_column(Array,Col,Val,Ans),
+	write(Ans),nl,
+	(Array \= Ans ->
+		alteraFatos(Row,Ans)
+	;Array = Ans ->
+		adicionaAleatorio()
+	).
+	/*alteraFatos(Row,Ans).*/
+
+alteraFatos(0,Array) :- 
+	[A,B,C,D] = Array,
+	array(0,X,Y,W,Z),
+	array(1,X1,Y1,W1,Z1),
+	array(2,X2,Y2,W2,Z2),
+	array(3,X3,Y3,W3,Z3),
+	
+	assertz(array(4,A,B,C,D)),
+	assertz(array(5,X1,Y1,W1,Z1)),
+	assertz(array(6,X2,Y2,W2,Z2)),
+	assertz(array(7,X3,Y3,W3,Z3)),
+	
+	array(4,A1,A2,A3,A4),
+	array(5,B1,B2,B3,B4),
+	array(6,C1,C2,C3,C4),
+	array(7,D1,D2,D3,D4),
+	
+	retract(array(0,_,_,_,_)),
+	retract(array(1,_,_,_,_)),
+	retract(array(2,_,_,_,_)),
+	retract(array(3,_,_,_,_)),
+	
+	assertz(array(0,A1,A2,A3,A4)),
+	assertz(array(1,B1,B2,B3,B4)),
+	assertz(array(2,C1,C2,C3,C4)),
+	assertz(array(3,D1,D2,D3,D4)),
+	
+	retract(array(4,_,_,_,_)),
+	retract(array(5,_,_,_,_)),
+	retract(array(6,_,_,_,_)),
+	retract(array(7,_,_,_,_)).
+
+alteraFatos(1,Array) :- 
+	[A,B,C,D] = Array,
+	array(0,X,Y,W,Z),
+	array(1,X1,Y1,W1,Z1),
+	array(2,X2,Y2,W2,Z2),
+	array(3,X3,Y3,W3,Z3),
+	
+	assertz(array(4,X,Y,W,Z)),
+	assertz(array(5,A,B,C,D)),
+	assertz(array(6,X2,Y2,W2,Z2)),
+	assertz(array(7,X3,Y3,W3,Z3)),
+	
+	array(4,A1,A2,A3,A4),
+	array(5,B1,B2,B3,B4),
+	array(6,C1,C2,C3,C4),
+	array(7,D1,D2,D3,D4),
+	
+	retract(array(0,_,_,_,_)),
+	retract(array(1,_,_,_,_)),
+	retract(array(2,_,_,_,_)),
+	retract(array(3,_,_,_,_)),
+	
+	assertz(array(0,A1,A2,A3,A4)),
+	assertz(array(1,B1,B2,B3,B4)),
+	assertz(array(2,C1,C2,C3,C4)),
+	assertz(array(3,D1,D2,D3,D4)),
+	
+	retract(array(4,_,_,_,_)),
+	retract(array(5,_,_,_,_)),
+	retract(array(6,_,_,_,_)),
+	retract(array(7,_,_,_,_)).
+
+alteraFatos(2,Array) :- 
+	/*write("aqui"),nl,
+	printa(),*/
+	[A,B,C,D] = Array,
+	array(0,X,Y,W,Z),
+    array(1,X1,Y1,W1,Z1),
+    array(2,X2,Y2,W2,Z2),
+    array(3,X3,Y3,W3,Z3),
+   
+    assertz(array(4,X,Y,W,Z)),
+    assertz(array(5,X1,Y1,W1,Z1)),
+    assertz(array(6,A,B,C,D)),
+    assertz(array(7,X3,Y3,W3,Z3)),
+   
+    array(4,A1,A2,A3,A4),
+    array(5,B1,B2,B3,B4),
+    array(6,C1,C2,C3,C4),
+    array(7,D1,D2,D3,D4),
+   
+    retract(array(0,_,_,_,_)),
+    retract(array(1,_,_,_,_)),
+    retract(array(2,_,_,_,_)),
+    retract(array(3,_,_,_,_)),
+   
+    assertz(array(0,A1,A2,A3,A4)),
+    assertz(array(1,B1,B2,B3,B4)),
+    assertz(array(2,C1,C2,C3,C4)),
+    assertz(array(3,D1,D2,D3,D4)),
+   
+    retract(array(4,_,_,_,_)),
+    retract(array(5,_,_,_,_)),
+    retract(array(6,_,_,_,_)),
+	retract(array(7,_,_,_,_)).
+
+alteraFatos(3,Array) :-
+	[A,B,C,D] = Array,
+	retract(array(3,_,_,_,_)),
+	assertz(array(3,A,B,C,D)).
+   
+transforma(Row, Array) :-
+    array(Row, X, Y, Z, W),
+    Array = [X,Y,Z,W].
+ 
+replace_column([Head|Tail],0,X,[X|Tail]) :- 
+	(Head = 0 ->
+		write("PODE INSERIR")
+	).
+	/*Head = 0.*/
+replace_column([A|Tail],0,Z,[A|Tail]) :- A \= 0.
+/*replace_column([A|Tail],0,Z,[Z|Tail]) :- A \= 0,
+    adicionaAleatorio().*/
+replace_column([C|Tail],Y,Z,[C|R]) :-
+    /*recursivamente ate encontrara a coluna desejada*/
+    Y > 0,
+    Y1 is Y-1,
+    replace_column(Tail,Y1,Z,R).  
+
 telaInicial() :-
     write( "+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"),nl,
     write( " 222222222222222         000000000            444444444       888888888"      ),nl,
@@ -249,10 +388,10 @@ somaDireita(Numero):-
 	assertz(array(Numero,X,Y,W,Z)).
 		
 inicia():-
-	assertz(array(0,1024,0,1024,2)),
-	assertz(array(1,1024,0,4,4)),
-	assertz(array(2,2,2,0,4)),
-	assertz(array(3,2,2,4,4)).
+	assertz(array(0,1,0,0,0)),
+    assertz(array(1,0,1,0,0)),
+    assertz(array(2,0,0,1,0)),
+    assertz(array(3,0,0,0,1)).
 
 listarArray([]).
 listarArray([H|Tail]):-
@@ -310,7 +449,9 @@ shif1(_).
 shif(_).										
 main:-
 	telaInicial(),
-	inicia(),
-	menu(),
+    inicia(),
+    adicionaAleatorio(),
+    adicionaAleatorio(),
+    menu(),
 	
 halt(0).
