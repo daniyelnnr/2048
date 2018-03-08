@@ -7,14 +7,14 @@ menu():-
 adicionaAleatorio() :-
     random_member(Val,[2,2,2,2,2,2,2,2,2,4]),
     random_member(Row,[0,1,2,3]),
-    write(Row),nl,
+    /*write(Row),nl,*/
     transforma(Row,Array),
-    write(Array),nl,
+    /*write(Array),nl,*/
     random_member(Col,[0,1,2,3]),
-	write(Col),nl,
-	write(Val),nl,
+	/*write(Col),nl,
+	write(Val),nl,*/
     replace_column(Array,Col,Val,Ans),
-	write(Ans),nl,
+	/*write(Ans),nl,*/
 	(Array \= Ans ->
 		alteraFatos(Row,Ans)
 	;Array = Ans ->
@@ -122,8 +122,36 @@ alteraFatos(2,Array) :-
 
 alteraFatos(3,Array) :-
 	[A,B,C,D] = Array,
-	retract(array(3,_,_,_,_)),
-	assertz(array(3,A,B,C,D)).
+	
+	array(0,X,Y,W,Z),
+    array(1,X1,Y1,W1,Z1),
+    array(2,X2,Y2,W2,Z2),
+    array(3,X3,Y3,W3,Z3),
+    
+    assertz(array(4,X,Y,W,Z)),
+    assertz(array(5,X1,Y1,W1,Z1)),
+    assertz(array(6,X2,Y2,W2,Z2)),
+    assertz(array(7,A,B,C,D)),
+    
+    array(4,A1,A2,A3,A4),
+    array(5,B1,B2,B3,B4),
+    array(6,C1,C2,C3,C4),
+    array(7,D1,D2,D3,D4),
+    
+    retract(array(0,_,_,_,_)),
+    retract(array(1,_,_,_,_)),
+    retract(array(2,_,_,_,_)),
+    retract(array(3,_,_,_,_)),
+    
+    assertz(array(0,A1,A2,A3,A4)),
+    assertz(array(1,B1,B2,B3,B4)),
+    assertz(array(2,C1,C2,C3,C4)),
+    assertz(array(3,D1,D2,D3,D4)),
+    
+    retract(array(4,_,_,_,_)),
+    retract(array(5,_,_,_,_)),
+    retract(array(6,_,_,_,_)),
+	retract(array(7,_,_,_,_)).
    
 transforma(Row, Array) :-
     array(Row, X, Y, Z, W),
@@ -189,11 +217,13 @@ sw(6):-
 	findall(X, (array(X,_,_,_,_)),L),
 	direita(L),
 	verificaFim(L),
+	adicionaAleatorio(),
 	menu().	
 sw(4):-
 	findall(X, (array(X,_,_,_,_)),L),
 	esquerda(L),
 	verificaFim(L),
+	adicionaAleatorio(),
 	menu().	
 sw(2):-
 	array(0,X,Y,W,Z),
@@ -239,6 +269,8 @@ sw(2):-
 	retract(array(5,_,_,_,_)),
 	retract(array(6,_,_,_,_)),
 	retract(array(7,_,_,_,_)),
+	
+	adicionaAleatorio(),
 	
 	menu().
 
@@ -286,6 +318,8 @@ sw(8):-
 	retract(array(5,_,_,_,_)),
 	retract(array(6,_,_,_,_)),
 	retract(array(7,_,_,_,_)),
+	
+	adicionaAleatorio(),
 	
 	menu().
 
@@ -388,10 +422,10 @@ somaDireita(Numero):-
 	assertz(array(Numero,X,Y,W,Z)).
 		
 inicia():-
-	assertz(array(0,1,0,0,0)),
-    assertz(array(1,0,1,0,0)),
-    assertz(array(2,0,0,1,0)),
-    assertz(array(3,0,0,0,1)).
+	assertz(array(0,0,0,0,0)),
+    assertz(array(1,0,0,0,0)),
+    assertz(array(2,0,0,0,0)),
+    assertz(array(3,0,0,0,0)).
 
 listarArray([]).
 listarArray([H|Tail]):-
@@ -413,14 +447,19 @@ shif(Numero):- array(Numero,X,Y,W,Z), X \= 0, Y \= 0, W = 0, Z=0, retract(array(
 shif(Numero):- array(Numero,X,Y,W,Z), X \= 0, Y = 0, W \= 0, Z=0, retract(array(Numero,_,_,_,_)),
 										assertz(array(Numero,0,0,X,W)).						
 shif(Numero):- array(Numero,X,Y,W,Z), X = 0, Y \= 0, W \= 0, Z=0, retract(array(Numero,_,_,_,_)),
-										assertz(array(Numero,0,0,Y,W)).											
+										assertz(array(Numero,0,0,Y,W)).
+shif(Numero):- array(Numero,X,Y,W,Z), X = 0, Y \= 0, W = 0, Z\=0, retract(array(Numero,_,_,_,_)),
+										assertz(array(Numero,0,0,Y,Z)).
+shif(Numero):- array(Numero,X,Y,W,Z), X \= 0, Y = 0, W = 0, Z\=0, retract(array(Numero,_,_,_,_)),
+										assertz(array(Numero,0,0,X,Z)).									
 
 shif(Numero):- array(Numero,X,Y,W,Z), X \= 0, Y \= 0, W \= 0, Z=0, retract(array(Numero,_,_,_,_)),
 										assertz(array(Numero,0,X,Y,W)).
 shif(Numero):- array(Numero,X,Y,W,Z), X \= 0, Y \= 0, W = 0, Z\=0, retract(array(Numero,_,_,_,_)),
 										assertz(array(Numero,0,X,Y,Z)).
 shif(Numero):- array(Numero,X,Y,W,Z), X \= 0, Y = 0, W \= 0, Z\=0, retract(array(Numero,_,_,_,_)),
-										assertz(array(Numero,0,X,W,Z)).										
+										assertz(array(Numero,0,X,W,Z)).
+										
 
 /* SHIFT ESQUERDA */
 
@@ -436,14 +475,19 @@ shif1(Numero):- array(Numero,X,Y,W,Z), X = 0, Y \= 0, W \= 0, Z=0, retract(array
 shif1(Numero):- array(Numero,X,Y,W,Z), X = 0, Y \= 0, W = 0, Z\=0, retract(array(Numero,_,_,_,_)),
 										assertz(array(Numero,Y,Z,0,0)).						
 shif1(Numero):- array(Numero,X,Y,W,Z), X = 0, Y = 0, W \= 0, Z\=0, retract(array(Numero,_,_,_,_)),
-										assertz(array(Numero,W,Z,0,0)).											
+										assertz(array(Numero,W,Z,0,0)).
+shif1(Numero):- array(Numero,X,Y,W,Z), X \= 0, Y = 0, W \= 0, Z=0, retract(array(Numero,_,_,_,_)),
+										assertz(array(Numero,X,W,0,0)).
+shif1(Numero):- array(Numero,X,Y,W,Z), X \= 0, Y = 0, W == 0, Z\=0, retract(array(Numero,_,_,_,_)),
+										assertz(array(Numero,X,Z,0,0)).									
 
 shif1(Numero):- array(Numero,X,Y,W,Z), X = 0, Y \= 0, W \= 0, Z\=0, retract(array(Numero,_,_,_,_)),
 										assertz(array(Numero,Y,W,Z,0)).
 shif1(Numero):- array(Numero,X,Y,W,Z), X \= 0, Y \= 0, W = 0, Z\=0, retract(array(Numero,_,_,_,_)),
 										assertz(array(Numero,X,Y,Z,0)).
 shif1(Numero):- array(Numero,X,Y,W,Z), X \= 0, Y = 0, W \= 0, Z\=0, retract(array(Numero,_,_,_,_)),
-										assertz(array(Numero,X,W,Z,0)).	
+										assertz(array(Numero,X,W,Z,0)).
+
 
 shif1(_).
 shif(_).										
