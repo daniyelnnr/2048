@@ -399,22 +399,25 @@ somaDireita(Numero):- W=Z,X=Y,
 	SOMA2 is X + Y,
 	retract(array(Numero,_,_,_,_)),
 	assertz(array(Numero,0,0,SOMA2,SOMA)).	
+
 somaDireita(Numero):- W=Z,
 	array(Numero,X,Y,W,Z),
 	SOMA is W + Z,
 	retract(array(Numero,_,_,_,_)),
 	assertz(array(Numero,0,X,Y,SOMA)).
 
-somaDireita(Numero):- X=Y,
-	array(Numero,X,Y,W,Z),
-	SOMA is X + Y,
-	retract(array(Numero,_,_,_,_)),
-	assertz(array(Numero,0,SOMA,W,Z)).
 somaDireita(Numero):- W=Y,
 	array(Numero,X,Y,W,Z),
 	SOMA is W + Y,
 	retract(array(Numero,_,_,_,_)),
 	assertz(array(Numero,0,X,SOMA,Z)).	
+			
+somaDireita(Numero):- X=Y,
+	array(Numero,X,Y,W,Z),
+	SOMA is X + Y,
+	retract(array(Numero,_,_,_,_)),
+	assertz(array(Numero,0,SOMA,W,Z)).	
+
 
 somaDireita(Numero):- 
 	array(Numero,X,Y,W,Z),
@@ -422,10 +425,10 @@ somaDireita(Numero):-
 	assertz(array(Numero,X,Y,W,Z)).
 		
 inicia():-
-	assertz(array(0,0,0,0,0)),
-    assertz(array(1,0,0,0,0)),
-    assertz(array(2,0,0,0,0)),
-    assertz(array(3,0,0,0,0)).
+	assertz(array(0,8,2,2,2)),
+    assertz(array(1,2,0,0,2)),
+    assertz(array(2,2,0,0,2)),
+    assertz(array(3,2,2,2,8)).
 
 listarArray([]).
 listarArray([H|Tail]):-
