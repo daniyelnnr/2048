@@ -1,19 +1,21 @@
 :- initialization(main).	
 menu():-
 	printa(),
+	write("+----+----+----+----+"),nl,
+	write(""),nl,
 	read(OP), nl ,
 	sw(OP).
 
 inicia():-
-	assertz(array(0,8,2,1024,1024)),
-    assertz(array(1,2,0,0,2)),
-    assertz(array(2,2,0,0,2)),
-    assertz(array(3,2,2,2,8)).
+	assertz(array(0,0,0,0,0)),
+    assertz(array(1,0,0,0,0)),
+    assertz(array(2,0,0,0,0)),
+    assertz(array(3,0,0,0,0)).
 
 listarArray([]).
 listarArray([H|Tail]):-
 	array(H,X,Y,W,Z),
-	write("---------------------"), nl ,
+	write("+----+----+----+----+"), nl ,
 	format('|~w~5+|~w~5+|~w~5+|~w~5+|  ~n', [X,Y,W,Z]),
 	listarArray(Tail).
 
@@ -196,15 +198,15 @@ telaInicial() :-
     write( "Daniyel Rocha | Igor Matheus | Lucas Cavalcanti | Marcos Cesar | Matheus Maia"),nl,
     write( "+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"),nl,
     write( ""                                                                             ),nl,
-    write( "Seu papel vai ser juntar as pecas deslocando-as para as 4 direcoes basicas"   ),nl,
+    write( "Seu papel será juntar as pecas deslocando-as para as 4 direcoes basicas"      ),nl,
     write( "de maneira a somar os numeros iguais ate alcancar o valor de 2048."           ),nl,
     write( ""                                                                             ),nl,
-    write( "Voce perde o jogo se o tabuleiro estiver com todas ascasas preenchidas"       ),nl,
+    write( "Voce perde o jogo se o tabuleiro estiver com todas as casas preenchidas"      ),nl,
     write( "sem que nenhum deles seja o 2048."                                            ),nl,
     write( ""                                                                             ),nl,
     write( "Temos 4 direcoes possiveis, direita, esquerda, cima e baixo."                 ),nl,
     write( ""                                                                             ),nl,
-    write( "As teclas correspondentes sao 'd', 'a', 'w', 's', respectivamente."           ),nl,
+    write( "As teclas correspondentes sao 6, 4, 8, 2, respectivamente."           	      ),nl,
     write( ""                                                                             ),nl,
     write( "Boa sorte!"                                                                   ),nl,
     write( ""                                                                             ),nl,
@@ -327,14 +329,14 @@ verificaFim([Head|Tail]):-
 
 verifica(Numero) :- array(Numero, X,Y,W,Z), (X=2048;Y=2048;W=2048;Z=2048),
 	printa(),nl,
-	write("
-	  _____  ___  __  __   ____   _____       _   ___    ____   ___   _ 
-	 |  ___||_ _||  \/  | |  _ \ | ____|     | | / _ \  / ___| / _ \ | |
-	 | |_    | | | |\/| | | | | ||  _|    _  | || | | || |  _ | | | || |
-	 |  _|   | | | |  | | | |_| || |___  | |_| || |_| || |_| || |_| ||_|
-	 |_|    |___||_|  |_| |____/ |_____|  \___/  \___/  \____| \___/ (_)
-
-	"), nl,
+	                                                                                                           
+	write("##     ##  #######   ######  ########     ######      ###    ##    ## ##     ##  #######  ##     ##"),nl,                            
+	write("##     ## ##     ## ##    ## ##          ##    ##    ## ##   ###   ## ##     ## ##     ## ##     ##"),nl, 
+	write("##     ## ##     ## ##       ##          ##         ##   ##  ####  ## ##     ## ##     ## ##     ##"),nl,  
+	write("##     ## ##     ## ##       ######      ##   #### ##     ## ## ## ## ######### ##     ## ##     ##"),nl,  
+	write(" ##   ##  ##     ## ##       ##          ##    ##  ######### ##  #### ##     ## ##     ## ##     ##"),nl,  
+    write("  ## ##   ##     ## ##    ## ##          ##    ##  ##     ## ##   ### ##     ## ##     ## ##     ## "),nl,  
+    write("   ###     #######   ######  ########     ######   ##     ## ##    ## ##     ##  #######   #######  "),nl,
 	halt(0).
 	
 verifica(_).	
